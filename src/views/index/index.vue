@@ -5,10 +5,14 @@
             <el-form-item label="高于值:">
                 <el-input v-model.number="form.height"></el-input>
             </el-form-item>
-            <el-form-item label="高于值:">
+            <el-form-item label="低于值:">
                 <el-input v-model.number="form.low"></el-input>
             </el-form-item>
+            <el-form-item label="交易对:">
+                <el-input v-model.number="form.key"></el-input>
+            </el-form-item>
         </el-form>
+        <button @click="stop">停止</button>
         <main>
 
         </main>
@@ -38,7 +42,7 @@
                 form: {
                     height:700,
                     low:0,
-
+                    key:'dashusdt',
                 },
             }
         },
@@ -63,7 +67,6 @@
             play(){
                 let audio =document.querySelector('#audio');
                 if(!this.isPlaying){
-                    console.log(audio)
                     audio.play();
                     this.isPlaying = true;
                 }
@@ -73,12 +76,12 @@
                 if(this.isPlaying){
                     audio.pause();
                     audio.currentTime = 0;
+                    this.isPlaying = false;
                 }
             },
         },
         //生命周期函数
         created() {
-            ipcRenderer.send('news-tips');
             let time=new Date().Format("yyyy-MM-ddTHH:mm:ss");
               //  test();
             // APIServies.get(`https://api.huobi.pro/market/history/kline?\n
@@ -122,7 +125,9 @@
         watch: {
             'getKLine.dashusdt.close':function(now,old){
                 console.log(now,this.form.num)
-                if(this.form.num&&now>=this.form.num){//
+                if((this.form.height&&now>=this.form.height)||(this.form.low&&now>=this.form.low)){//
+                    console.log('gogo');
+                    ipcRenderer.send('news-tips');
                     this.play();
                 }else{
                     this.stop();
@@ -166,6 +171,10 @@
 
     .from{
         width: 300px;
+    }
+
+    #audio{
+        display:none;
     }
 
     main {
