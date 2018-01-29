@@ -30,8 +30,7 @@
         "from": "src/main/static/",
         "to": "static",
         "filter": []
-      },
-
+      }
     ],
     "dmg": {
       "contents": [
