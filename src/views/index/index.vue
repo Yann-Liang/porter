@@ -2,8 +2,11 @@
     <div id="wrapper">
         <com-header></com-header>
         <el-form class="from" ref="form" :model="form" label-width="80px">
-            <el-form-item label="跟踪值">
-                <el-input v-model.number="form.num"></el-input>
+            <el-form-item label="高于值:">
+                <el-input v-model.number="form.height"></el-input>
+            </el-form-item>
+            <el-form-item label="高于值:">
+                <el-input v-model.number="form.low"></el-input>
             </el-form-item>
         </el-form>
         <main>
@@ -13,7 +16,7 @@
             {{getKLine}}
         </pre>
         <p>百分比:{{a}}%</p>
-        <audio id="audio" class="audio" controls="controls" preload="auto" src="/static/audios/彭家丽 - 昨天今天下雨天.mp3"></audio>
+        <audio id="audio" class="audio" controls="controls" preload="auto" src="/static/music/1.mp3"></audio>
     </div>
 </template>
 
@@ -23,6 +26,7 @@
     import test from '@/services/test-servies';
     import huobiWs from '@/services/ws'
     import {mapState, mapActions, mapGetters} from 'vuex';
+    import {ipcRenderer} from 'electron'
 
     export default {
         name: 'landing-page',
@@ -32,7 +36,9 @@
                 src: 'https://www.baidu.com/',
                 isPlaying:false,
                 form: {
-                    num:700
+                    height:700,
+                    low:0,
+
                 },
             }
         },
@@ -72,6 +78,7 @@
         },
         //生命周期函数
         created() {
+            ipcRenderer.send('news-tips');
             let time=new Date().Format("yyyy-MM-ddTHH:mm:ss");
               //  test();
             // APIServies.get(`https://api.huobi.pro/market/history/kline?\n
@@ -113,9 +120,9 @@
         mounted() {},
         //监视
         watch: {
-            'getKLine.dashusdt.open':function(now,old){
+            'getKLine.dashusdt.close':function(now,old){
                 console.log(now,this.form.num)
-                if(this.form.num&&now<=this.form.num){//
+                if(this.form.num&&now>=this.form.num){//
                     this.play();
                 }else{
                     this.stop();

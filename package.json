@@ -1,6 +1,6 @@
 {
   "name": "yanzi",
-  "version": "1.4.01",
+  "version": "1.0.1",
   "author": "liangyanxiang<liangyanxiang@juzix.io>",
   "description": "燕子客户端",
   "license": null,
@@ -17,14 +17,22 @@
     "postinstall": ""
   },
   "build": {
-    "productName": "Juzix",
-    "appId": "org.simulatedgreg.electron-vue",
+    "productName": "yanzi",
+    "appId": "org.liangyanxiang.yanzi",
     "directories": {
       "output": "dist"
     },
     "files": [
       "dist/electron/**/*"
     ],
+    "extraFiles": [
+      {
+        "from": "src/main/static/",
+        "to": "static",
+        "filter": []
+      },
+
+    ]
     "dmg": {
       "contents": [
         {

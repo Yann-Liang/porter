@@ -2,25 +2,29 @@ import { nativeImage, app, BrowserWindow, globalShortcut, ipcMain, Tray, Menu } 
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
-const {
-	exec
-} = require('child_process');
+import { clearInterval } from 'timers';
 
 clearCache(); //清理缓存。不然很坑爹
 
-if(process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV !== 'development') {
 	global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭
-let mainWindow, tray = null;
+let mainWindow, tray = null, winURL = '',
+	iconPath = path.join(__dirname, 'static/icon/bird.png'),
+	iconPath1 = path.join(__dirname, 'static/icon/white-bird.png'),
+	timer = null;
 
-const winURL = process.env.NODE_ENV === 'development' ?
-	`http://localhost:9080` :
-	`file://${__dirname}/index.html`,
-	iconPath = process.env.NODE_ENV === 'development' ?
-	`./static/images/icon.ico` :
-	path.join(app.getPath('exe'), '..', '48x48.png');
+if (process.env.NODE_ENV === 'development') {
+	winURL = `http://localhost:9080`;
+	//iconPath =  path.join(__dirname, 'static/icon/bird.png');
+	//iconPath1 = path.join(__dirname, 'static/icon/white-bird.png');;
+} else {
+	winURL = `file://${__dirname}/index.html`;
+	//iconPath = path.join(app.getPath('exe'), '..', 'bird.png');
+	//iconPath1 = path.join(app.getPath('exe'), '..', 'white-bird.png');
+}
 
 function createWindow() {
 	// 创建浏览器窗口。
@@ -67,17 +71,22 @@ function createWindow() {
 		}
 	]);
 
-	tray.setToolTip('燕子客户端');
-	tray.setContextMenu(contextMenu);
+	tray.setToolTip('燕子客户端');//设置此托盘图标的悬停提示内容
+	tray.setContextMenu(contextMenu);//设置此图标的上下文菜单
 	tray.on('double-click', () => { //双击显示
 		mainWindow.show();
-	})
+	});
+
+	//单点击 1.主窗口显示隐藏切换 2.清除闪烁
+	tray.on("click", function () {
+			clearInterval(timer);
+			tray.setImage(iconPath);
+			//主窗口显示隐藏切换
+			mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+	});
 
 	//注册开发者工具快捷键
-	const retClose = globalShortcut.register('CommandOrControl+B', () => {
-		BrowserWindow.getFocusedWindow().webContents.closeDevTools();
-	});
-	const retOpen = globalShortcut.register('CommandOrControl+N', () => {
+	const retOpen = globalShortcut.register('CommandOrControl+F12', () => {
 		BrowserWindow.getFocusedWindow().webContents.openDevTools({
 			mode: 'undocked'
 		});
@@ -86,19 +95,19 @@ function createWindow() {
 };
 
 const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
-	if(mainWindow) {
-		if(mainWindow.isMinimized()) {
+	if (mainWindow) {
+		if (mainWindow.isMinimized()) {
 			mainWindow.restore();
 		}
 
-		if(!mainWindow.isVisible()){
+		if (!mainWindow.isVisible()) {
 			mainWindow.show();
 		}
 		mainWindow.focus();
 	}
 })
 
-if(shouldQuit) {
+if (shouldQuit) {
 	app.quit();
 }
 
@@ -111,7 +120,7 @@ app.on('ready', createWindow);
 app.on('window-all-closed', () => {
 	// 在 macOS 上，除非用户用 Cmd + Q 确定地退出，
 	// 否则绝大部分应用及其菜单栏会保持激活。
-	if(process.platform !== 'darwin') {
+	if (process.platform !== 'darwin') {
 		app.quit()
 	}
 });
@@ -119,15 +128,12 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
 	// 在这文件，你可以续写应用剩下主进程代码。
 	// 也可以拆分成几个文件，然后用 require 导入。
-	if(mainWindow === null) {
+	if (mainWindow === null) {
 		createWindow()
 	}
 });
 
-//注册协议
-app.setAsDefaultProtocolClient('juzix');
-
-//最小化
+//隐藏
 ipcMain.on('hide-window', () => {
 	mainWindow.hide();
 });
@@ -137,12 +143,27 @@ ipcMain.on('minimize-window', () => {
 	mainWindow.minimize();
 });
 
+//消息提示
+ipcMain.on('news-tips', () => {
+	//系统托盘图标闪烁
+	let count = 0 ;
+	timer = setInterval(()=> {
+		count++;
+		if (count % 2 == 0) {
+			tray.setImage(iconPath)
+		} else {
+			tray.setImage(iconPath1)
+		}
+	}, 600);
+});
+
+
 function clearCache() {
 	let path = app.getPath('appData') + '/Electron/Cache',
 		files = [];
-	if(fs.existsSync(path)) {
+	if (fs.existsSync(path)) {
 		files = fs.readdirSync(path);
-		files.forEach(function(file, index) {
+		files.forEach(function (file, index) {
 			fs.unlinkSync(path + "/" + file);
 		});
 	}
