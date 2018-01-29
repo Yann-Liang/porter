@@ -20,7 +20,7 @@
             {{getKLine}}
         </pre>
         <p>百分比:{{a}}%</p>
-        <audio id="audio" class="audio" controls="controls" preload="auto" src="/static/music/1.mp3"></audio>
+        <audio id="audio" class="audio" preload="auto" loop="loop" src="/static/music/1.mp3"></audio>
     </div>
 </template>
 
@@ -40,7 +40,7 @@
                 src: 'https://www.baidu.com/',
                 isPlaying:false,
                 form: {
-                    height:700,
+                    height:800,
                     low:0,
                     key:'dashusdt',
                 },
