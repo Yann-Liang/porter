@@ -19,7 +19,7 @@ const winURL = process.env.NODE_ENV === 'development' ?
 	`http://localhost:9080` :
 	`file://${__dirname}/index.html`,
 	iconPath = process.env.NODE_ENV === 'development' ?
-	`./static/images/48x48.png` :
+	`./static/images/icon.ico` :
 	path.join(app.getPath('exe'), '..', '48x48.png');
 
 function createWindow() {
@@ -51,27 +51,27 @@ function createWindow() {
 		mainWindow = null
 	})
 
-	// tray = new Tray(iconPath);
+	tray = new Tray(iconPath);
 
-	// const contextMenu = Menu.buildFromTemplate([
+	const contextMenu = Menu.buildFromTemplate([
 
-	// 	{
-	// 		label: "打开面板",
-	// 		click() {
-	// 			mainWindow.show()
-	// 		}
-	// 	},
-	// 	{
-	// 		label: "退出",
-	// 		role: "quit"
-	// 	}
-	// ]);
+		{
+			label: "打开面板",
+			click() {
+				mainWindow.show()
+			}
+		},
+		{
+			label: "退出",
+			role: "quit"
+		}
+	]);
 
-	// tray.setToolTip('矩阵元客户端');
-	// tray.setContextMenu(contextMenu);
-	// tray.on('double-click', () => { //双击显示
-	// 	mainWindow.show();
-	// })
+	tray.setToolTip('燕子客户端');
+	tray.setContextMenu(contextMenu);
+	tray.on('double-click', () => { //双击显示
+		mainWindow.show();
+	})
 
 	//注册开发者工具快捷键
 	const retClose = globalShortcut.register('CommandOrControl+B', () => {

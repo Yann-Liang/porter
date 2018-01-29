@@ -1,39 +1,24 @@
 <template>
     <div id="wrapper">
         <com-header></com-header>
+        <el-form class="from" ref="form" :model="form" label-width="80px">
+            <el-form-item label="跟踪值">
+                <el-input v-model.number="form.num"></el-input>
+            </el-form-item>
+        </el-form>
         <main>
-            <div class="left-side">
-                <span class="title">
-                    Welcome to your new project!
-                </span>
-                <system-information></system-information>
-            </div>
-            <div class="right-side">
-                <div class="doc">
-                    <div class="title">Getting Started</div>
-                    <p>
-                        electron-vue comes packed with detailed documentation that covers everything from internal configurations, using the project structure, building your application, and so much more.
-                    </p>
-                    <button @click="open('https://simulatedgreg.gitbooks.io/electron-vue/content/')">Read the Docs</button><br><br>
-                </div>
-                <div class="doc">
-                    <div class="title alt">Other Documentation</div>
-                    <button class="alt" @click="open('https://electron.atom.io/docs/')">Electron</button>
-                    <button class="alt" @click="open('https://vuejs.org/v2/guide/')">Vue.js</button>
-                </div>
-            </div>
-            <audio id="audio" class="audio" controls="controls" preload="auto" src="/static/audios/彭家丽 - 昨天今天下雨天.mp3"></audio>
+
         </main>
         <pre>
             {{getKLine}}
         </pre>
-        <!--<webview class="webview" autosize="on" minwidth="576" minheight="500" :src="src"></webview>-->
+        <p>百分比:{{a}}%</p>
+        <audio id="audio" class="audio" controls="controls" preload="auto" src="/static/audios/彭家丽 - 昨天今天下雨天.mp3"></audio>
     </div>
 </template>
 
 <script>
     import comHeader from '@/components/header/';
-    import systemInformation from '@/components/system-information/system-information'
     import APIServies from '@/services/API-servies';
     import test from '@/services/test-servies';
     import huobiWs from '@/services/ws'
@@ -46,6 +31,9 @@
             return {
                 src: 'https://www.baidu.com/',
                 isPlaying:false,
+                form: {
+                    num:700
+                },
             }
         },
         //数组或对象，用于接收来自父组件的数据
@@ -54,8 +42,12 @@
         },
         //计算
         computed: {
-            ...mapGetters(['getKLine',])
-
+            ...mapGetters(['getKLine',]),
+            a(){
+                let item=this.getKLine.dashusdt,
+                {high,low}=item;
+                return (high-low)/low*100;
+            }
         },
         //方法
         methods: {
@@ -122,9 +114,8 @@
         //监视
         watch: {
             'getKLine.dashusdt.open':function(now,old){
-                console.log(now,old);
-                if(now<=760){
-
+                console.log(now,this.form.num)
+                if(this.form.num&&now<=this.form.num){//
                     this.play();
                 }else{
                     this.stop();
@@ -134,7 +125,6 @@
         //组件
         components: {
             comHeader,
-            systemInformation
         },
         //过滤器
         filters: {
@@ -167,10 +157,8 @@
         width: 100vw;
     }
 
-    #logo {
-        height: auto;
-        margin-bottom: 20px;
-        width: 420px;
+    .from{
+        width: 300px;
     }
 
     main {
@@ -179,59 +167,7 @@
         justify-content: space-between;
     }
 
-    main>div {
-        flex-basis: 50%;
-    }
 
-    .left-side {
-        display: flex;
-        flex-direction: column;
-    }
 
-    .welcome {
-        color: #555;
-        font-size: 23px;
-        margin-bottom: 10px;
-    }
 
-    .title {
-        color: #2c3e50;
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 6px;
-    }
-
-    .title.alt {
-        font-size: 18px;
-        margin-bottom: 10px;
-    }
-
-    .doc {
-        p {
-            color: black;
-            margin-bottom: 10px;
-        }
-        button {
-            font-size: .8em;
-            cursor: pointer;
-            outline: none;
-            padding: 0.75em 2em;
-            border-radius: 2em;
-            display: inline-block;
-            color: #fff;
-            background-color: #4fc08d;
-            transition: all 0.15s ease;
-            box-sizing: border-box;
-            border: 1px solid #4fc08d;
-        }
-        button.alt {
-            color: #42b983;
-            background-color: transparent;
-        }
-    }
-
-    .webview {
-        display: flex;
-        height: 480px;
-    }
 </style>

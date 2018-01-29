@@ -1,8 +1,8 @@
 {
-  "name": "console",
+  "name": "yanzi",
   "version": "1.4.01",
   "author": "liangyanxiang<liangyanxiang@juzix.io>",
-  "description": "控制台",
+  "description": "燕子客户端",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {

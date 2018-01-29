@@ -30,7 +30,7 @@ const handle = data => {
             break;
 
         default:
-            console.log('default',symbol, data)
+            console.log('default',symbol, JSON.stringify(data,null,2))
     }
 }, dealKline = (type, tick) => {
     if (type == 'dashusdt') {
@@ -47,7 +47,7 @@ const handle = data => {
 }
 
 function subscribe(ws) {
-    const symbols = ['dashusdt',/*'xrpbtc', 'bchusdt',*/];
+    const symbols = ['dashusdt','eosusdt'/*'xrpbtc', 'bchusdt',*/];
     // 谨慎选择合并的深度，ws每次推送全量的深度数据，若未能及时处理容易引起消息堆积并且引发行情延时
     for (let symbol of symbols) {
         // 订阅深度
