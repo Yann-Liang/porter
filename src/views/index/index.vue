@@ -91,8 +91,7 @@
             },
             watchKey(){
                 widthId&&widthId();
-
-                widthId=this.$watch(`'getKLine[${this.form.key}]close'`, function(now,old){
+                widthId=this.$watch(`getKLine.${this.form.key}.close`, function(now,old){
                     console.log(now,this.form.num)
                     if((this.form.height&&now>=this.form.height)||(this.form.low&&now>=this.form.low)){//
                         console.log('gogo');
