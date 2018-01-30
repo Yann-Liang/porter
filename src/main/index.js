@@ -31,7 +31,7 @@ function createWindow() {
 	mainWindow = new BrowserWindow({
 		width: 1200,
 		height: 740,
-		minWidth: 1500,
+		minWidth: 1400,
 		minHeight: 600,
 		useContentSize: true,
 		frame: true, //是否创建有边框窗口
