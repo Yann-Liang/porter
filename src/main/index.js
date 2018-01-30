@@ -18,12 +18,12 @@ let mainWindow, tray = null, winURL = '',
 
 if (process.env.NODE_ENV === 'development') {
 	winURL = `http://localhost:9080`;
-	//iconPath =  path.join(__dirname, 'static/icon/bird.png');
-	//iconPath1 = path.join(__dirname, 'static/icon/white-bird.png');;
+	iconPath =  path.join(__dirname, 'static/icon/bird.png');
+	iconPath1 = path.join(__dirname, 'static/icon/white-bird.png');;
 } else {
 	winURL = `file://${__dirname}/index.html`;
-	//iconPath = path.join(app.getPath('exe'), '..', 'bird.png');
-	//iconPath1 = path.join(app.getPath('exe'), '..', 'white-bird.png');
+	iconPath = path.join(app.getPath('exe'), '../static/icon/bird.png');
+	iconPath1 = path.join(app.getPath('exe'), '../static/icon/white-bird.png');
 }
 
 function createWindow() {
