@@ -1,24 +1,30 @@
 <template>
     <div id="wrapper">
         <com-header></com-header>
-        <el-form class="from" ref="form" :model="form" label-width="80px">
-            <el-form-item label="高于值:">
-                <el-input v-model.number="form.height"></el-input>
-            </el-form-item>
-            <el-form-item label="低于值:">
-                <el-input v-model.number="form.low"></el-input>
-            </el-form-item>
-            <el-form-item label="交易对:">
-                <el-input v-model.number="form.key"></el-input>
-            </el-form-item>
-        </el-form>
+        <form class="from" ref="form" :model="form" label-width="80px">
+            <label label="高于值:">
+                <input type="number" v-model.number="form.height" />
+            </label>
+            <label  type="number" label="低于值:">
+                <input v-model.number="form.low" />
+            </label>
+            <label label="交易对:">
+                <input type="text" v-model.number="form.key" />
+            </label>
+        </form>
         <button @click="stop">停止</button>
         <main>
-
+            <pre>
+                {{getKLine.dashusdt}}
+            </pre>
+            <pre>
+                {{getKLine.eosusdt}}
+            </pre>
+            <pre>
+                {{getKLine.ethusdt}}
+            </pre>
         </main>
-        <pre>
-            {{getKLine}}
-        </pre>
+
         <p>百分比:{{a}}%</p>
         <audio id="audio" class="audio" preload="auto" loop="loop" src="/static/music/1.mp3"></audio>
     </div>
@@ -182,7 +188,6 @@
         display: flex;
         justify-content: space-between;
     }
-
 
 
 
