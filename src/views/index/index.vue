@@ -1,7 +1,7 @@
 <template>
     <div id="wrapper">
         <!-- <com-header></com-header> -->
-        <form class="from" ref="form" :model="form" label-width="80px">
+        <form class="from" ref="form" :model="form" label-width="80px" onSubmit="return fasle;" >
             <label label="高于值:">
                 <input type="number" v-model.number="form.height" />
             </label>
@@ -11,8 +11,8 @@
             <label label="交易对:">
                 <input type="text" v-model.number="form.key" />
             </label>
-            <button @click="watchKey">开始监控</button>
-            <button @click="unwatchKey">停止监控</button>
+            <button type="button" @click="watchKey">开始监控</button>
+            <button type="button" @click="unwatchKey">停止监控</button>
         </form>
         <button @click="stop">停止</button>
         <main>
@@ -105,7 +105,8 @@
                 })
             },
             unwatchKey(){
-                return widthId();
+                this.stop()
+                widthId();
             }
         },
         //生命周期函数
