@@ -1,6 +1,6 @@
 <template>
     <div id="wrapper">
-        <com-header></com-header>
+        <!-- <com-header></com-header> -->
         <form class="from" ref="form" :model="form" label-width="80px">
             <label label="高于值:">
                 <input type="number" v-model.number="form.height" />
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import comHeader from '@/components/header/';
+    //import comHeader from '@/components/header/';
     import APIServies from '@/services/API-servies';
     import test from '@/services/test-servies';
     import huobiWs from '@/services/ws'
@@ -142,7 +142,7 @@
         },
         //组件
         components: {
-            comHeader,
+            //comHeader,
         },
         //过滤器
         filters: {

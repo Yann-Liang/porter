@@ -146,7 +146,8 @@ ipcMain.on('minimize-window', () => {
 //消息提示
 ipcMain.on('news-tips', () => {
 	//系统托盘图标闪烁
-	let count = 0 ;
+	let count = 0;
+	clearInterval(timer);
 	timer = setInterval(()=> {
 		count++;
 		if (count % 2 == 0) {
