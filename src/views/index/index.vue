@@ -26,7 +26,7 @@
         </main>
 
         <p>百分比:{{a}}%</p>
-        <audio id="audio" class="audio" preload="auto" loop="loop" src="/static/music/1.mp3"></audio>
+        <audio id="audio" class="audio" preload="auto" loop="loop" :src="audioSrc"></audio>
     </div>
 </template>
 
@@ -43,7 +43,7 @@
         //实例的数据对象
         data() {
             return {
-                src: 'https://www.baidu.com/',
+                audioSrc: `${static}/music/1.mp3`,
                 isPlaying:false,
                 form: {
                     height:800,
