@@ -11,6 +11,8 @@
             <label label="交易对:">
                 <input type="text" v-model.number="form.key" />
             </label>
+            <button @click="watchKey">开始监控</button>
+            <button @click="unwatchKey">停止监控</button>
         </form>
         <button @click="stop">停止</button>
         <main>
@@ -36,14 +38,16 @@
     import test from '@/services/test-servies';
     import huobiWs from '@/services/ws'
     import {mapState, mapActions, mapGetters} from 'vuex';
-    import {ipcRenderer} from 'electron'
+    import {ipcRenderer} from 'electron';
+
+    let widthId=null;
 
     export default {
         name: 'landing-page',
         //实例的数据对象
         data() {
             return {
-                audioSrc: `${static}/music/1.mp3`,
+                audioSrc: `${__static}/music/1.mp3`,
                 isPlaying:false,
                 form: {
                     height:800,
@@ -85,6 +89,25 @@
                     this.isPlaying = false;
                 }
             },
+            watchKey(){
+                widthId&&widthId();
+
+                widthId=this.$watch(`'getKLine[${this.form.key}]close'`, function(now,old){
+                    console.log(now,this.form.num)
+                    if((this.form.height&&now>=this.form.height)||(this.form.low&&now>=this.form.low)){//
+                        console.log('gogo');
+                        ipcRenderer.send('news-tips');
+                        this.play();
+                    }else{
+                        this.stop();
+                    }
+                }, {
+                    immediate: true//立即以 `` 的当前值触发回调
+                })
+            },
+            unwatchKey(){
+                return widthId();
+            }
         },
         //生命周期函数
         created() {
@@ -129,16 +152,16 @@
         mounted() {},
         //监视
         watch: {
-            'getKLine.dashusdt.close':function(now,old){
-                console.log(now,this.form.num)
-                if((this.form.height&&now>=this.form.height)||(this.form.low&&now>=this.form.low)){//
-                    console.log('gogo');
-                    ipcRenderer.send('news-tips');
-                    this.play();
-                }else{
-                    this.stop();
-                }
-            }
+            // 'getKLine.dashusdt.close':function(now,old){
+            //     console.log(now,this.form.num)
+            //     if((this.form.height&&now>=this.form.height)||(this.form.low&&now>=this.form.low)){//
+            //         console.log('gogo');
+            //         ipcRenderer.send('news-tips');
+            //         this.play();
+            //     }else{
+            //         this.stop();
+            //     }
+            // },
         },
         //组件
         components: {
