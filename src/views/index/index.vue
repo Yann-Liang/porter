@@ -1,7 +1,7 @@
 <template>
-    <div id="wrapper">
+    <div id="wrapper" class="clearfix">
         <!-- <com-header></com-header> -->
-        <form class="from" ref="form" :model="form" label-width="80px" onSubmit="return fasle;" >
+        <form class="from fl" ref="form" :model="form" label-width="80px" onSubmit="return fasle;" >
             <label>高于值:
                 <input type="number" v-model.number="form.height" />
             </label>
@@ -13,11 +13,18 @@
                     <option v-for="(item,index) in options" :key="index" :value="item">{{item}}</option>
                 </select>
             </label>
-            <button type="button" @click="watchKey">开始监控</button>
-            <button type="button" @click="unwatchKey">停止监控</button>
+            <button type="button" @click="addWatch">添加监控</button>
             <button type="button" @click="stop">停止声音</button>
         </form>
-
+        <div class="clearfix">
+            <ul class="list fl" v-for="(item,key) in watchList" :key="key">
+                <li class="list-item"><b>监控:</b>{{key}}</li>
+                <li class="list-item"><b>高于值:</b>{{item.height}}</li>
+                <li class="list-item"><b>低于值:</b>{{item.low}}</li>
+                <button type="button" @click="watchKey(key)">开始监控</button>
+                <button type="button" @click="unwatchKey(key)">停止监控</button>
+            </ul>
+        </div>
         <main>
             <ul class="list" v-for="(item,index) in getKLine" :key="index">
                 <li class="list-item"><b>交易对:</b>{{index}}</li>
@@ -39,9 +46,6 @@
     import Ws from '@/services/ws'
     import {mapState, mapActions, mapGetters} from 'vuex';
     import {ipcRenderer} from 'electron';
-    console.log('WS11',Ws);
-
-    let widthId=null;
 
     export default {
         name: 'landing-page',
@@ -56,6 +60,9 @@
                     key:'dashusdt',
                 },
                 options:['btcusdt','ethusdt','dashusdt','eosusdt',/*'xrpbtc', 'bchusdt',*/],
+                watchList:{
+
+                },
             }
         },
         //数组或对象，用于接收来自父组件的数据
@@ -91,9 +98,21 @@
                     this.isPlaying = false;
                 }
             },
-            watchKey(){
-                widthId&&widthId();
-                widthId=this.$watch(`getKLine.${this.form.key}.close`, function(now,old){
+            addWatch(){
+                if(!this.watchList[this.form.key]&&this.watchList[this.form.key]==undefined){
+                    this.watchList[this.form.key]={
+                        watcher:null,
+                        height:this.form.height,
+                        low:this.form.low,
+                    };
+                }else{
+                    alert('请勿重复添加');
+                }
+            },
+            watchKey(key){
+                this.watchList[key].watcher&&this.watchList[key].watcher();
+
+                this.watchList[key].watcher=this.$watch(`getKLine.${key}.close`, function(now,old){
                     console.log(now,this.form.num)
                     if((this.form.height&&now>=this.form.height)||(this.form.low&&now>=this.form.low)){//
                         console.log('gogo');
@@ -106,9 +125,9 @@
                     immediate: true//立即以 `` 的当前值触发回调
                 })
             },
-            unwatchKey(){
+            unwatchKey(key){
                 this.stop()
-                widthId&&widthId();
+                this.watchList[key].watcher&&this.watchList[key].watcher();
             }
         },
         //生命周期函数
@@ -147,6 +166,22 @@
             // }).catch(error=>{
             //     console.log('error',error)
             // })
+
+            APIServies.get(`https://api.huobi.pro\n
+                /v1/common/symbols ?\n
+                AccessKeyId=82af2d5b-845a4086-a5733bb7-06d6c\n
+                &SignatureMethod=HmacSHA256\n
+                &SignatureVersion=2\n
+                &Timestamp=${time}\n
+                &order-id=1234567890\n
+                &Signature=calculated value
+                `,{
+
+            }).then(res=>{
+                console.log('交易对',res);
+            }).catch(error=>{
+                console.log('error',error)
+            })
         },
         beforeMount() {
 
@@ -182,9 +217,9 @@
 
 <style lang="less" scoped>
     #wrapper {
+        display: block;
         background: radial-gradient( ellipse at top left, rgba(255, 255, 255, 1) 40%, rgba(229, 229, 229, .9) 100%);
         height: 100vh;
-
         width: 100vw;
     }
 
