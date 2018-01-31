@@ -3,12 +3,9 @@ const pako = require('pako');
 
 import store from '@/vuex/store';
 
-const WS_URL = 'wss://api.huobipro.com/ws';
+const WS_HUOBI_URL = 'wss://api.huobipro.com/ws';
 
-let huobiWs = {};
-
-export default huobiWs;
-
+let huobiWs = null;
 const handle = data => {
     let chList = data.ch.split('.'),
         symbol = chList[1],
@@ -16,7 +13,7 @@ const handle = data => {
 
     switch (channel) {
         case 'depth':
-        huobiWs[symbol] = data.tick;
+            console.log('depth', data.tick);
             break;
         case 'kline':
             store.dispatch('updateKLine', {
@@ -47,7 +44,7 @@ const handle = data => {
 }
 
 function subscribe(ws) {
-    const symbols = ['dashusdt','eosusdt','ethusdt'/*'xrpbtc', 'bchusdt',*/];
+    const symbols = ['btcusdt','ethusdt','dashusdt','eosusdt',/*'xrpbtc', 'bchusdt',*/];
     // 谨慎选择合并的深度，ws每次推送全量的深度数据，若未能及时处理容易引起消息堆积并且引发行情延时
     for (let symbol of symbols) {
         // 订阅深度
@@ -75,18 +72,18 @@ function subscribe(ws) {
 }
 
 function init() {
-    var ws = new WebSocket('wss://api.huobipro.com/ws');
-    ws.on('open', () => {
+    huobiWs = new WebSocket(WS_HUOBI_URL);
+    huobiWs.on('open', () => {
         console.log(new Date(),'ws open');
-        subscribe(ws);
+        subscribe(huobiWs);
     });
-    ws.on('message', (data) => {
+    huobiWs.on('message', (data) => {
         let text = pako.inflate(data, {
             to: 'string'
         });
         let msg = JSON.parse(text);
         if (msg.ping) {
-            ws.send(JSON.stringify({
+            huobiWs.send(JSON.stringify({
                 pong: msg.ping
             }));
         } else if (msg.tick) {
@@ -95,14 +92,18 @@ function init() {
             console.log(text);
         }
     });
-    ws.on('close', () => {
+    huobiWs.on('close', () => {
         console.log(new Date(),'ws close');
         init();
     });
-    ws.on('error', err => {
+    huobiWs.on('error', err => {
         console.log(new Date(),'error', err);
         init();
     });
 }
 
 init();
+
+export default {
+    huobiWs
+};

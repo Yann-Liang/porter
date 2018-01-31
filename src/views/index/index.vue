@@ -2,29 +2,29 @@
     <div id="wrapper">
         <!-- <com-header></com-header> -->
         <form class="from" ref="form" :model="form" label-width="80px" onSubmit="return fasle;" >
-            <label label="高于值:">
+            <label>高于值:
                 <input type="number" v-model.number="form.height" />
             </label>
-            <label  type="number" label="低于值:">
-                <input v-model.number="form.low" />
+            <label>低于值:
+                <input type="number" v-model.number="form.low" />
             </label>
-            <label label="交易对:">
-                <input type="text" v-model.number="form.key" />
+            <label>交易对:
+                <select v-model="form.key">
+                    <option v-for="(item,index) in options" :key="index" :value="item">{{item}}</option>
+                </select>
             </label>
             <button type="button" @click="watchKey">开始监控</button>
             <button type="button" @click="unwatchKey">停止监控</button>
+            <button type="button" @click="stop">停止声音</button>
         </form>
-        <button @click="stop">停止</button>
+
         <main>
-            <pre>
-                {{getKLine.dashusdt}}
-            </pre>
-            <pre>
-                {{getKLine.eosusdt}}
-            </pre>
-            <pre>
-                {{getKLine.ethusdt}}
-            </pre>
+            <ul class="list" v-for="(item,index) in getKLine" :key="index">
+                <li class="list-item"><b>交易对:</b>{{index}}</li>
+                <li class="list-item" v-for="(i,k) in item" :key="k">
+                    <span>{{k}}:</span>{{i}}
+                </li>
+            </ul>
         </main>
 
         <p>百分比:{{a}}%</p>
@@ -36,9 +36,10 @@
     //import comHeader from '@/components/header/';
     import APIServies from '@/services/API-servies';
     import test from '@/services/test-servies';
-    import huobiWs from '@/services/ws'
+    import Ws from '@/services/ws'
     import {mapState, mapActions, mapGetters} from 'vuex';
     import {ipcRenderer} from 'electron';
+    console.log('WS11',Ws);
 
     let widthId=null;
 
@@ -54,6 +55,7 @@
                     low:0,
                     key:'dashusdt',
                 },
+                options:['btcusdt','ethusdt','dashusdt','eosusdt',/*'xrpbtc', 'bchusdt',*/],
             }
         },
         //数组或对象，用于接收来自父组件的数据
@@ -106,7 +108,7 @@
             },
             unwatchKey(){
                 this.stop()
-                widthId();
+                widthId&&widthId();
             }
         },
         //生命周期函数
@@ -179,18 +181,6 @@
 </script>
 
 <style lang="less" scoped>
-    @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
-
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
-    body {
-        font-family: 'Source Sans Pro', sans-serif;
-    }
-
     #wrapper {
         background: radial-gradient( ellipse at top left, rgba(255, 255, 255, 1) 40%, rgba(229, 229, 229, .9) 100%);
         height: 100vh;
@@ -200,7 +190,24 @@
 
     .from{
         width: 300px;
+        >label{
+            display: block;
+        }
     }
+
+    .list{
+        display: flex;
+        flex-direction:column;
+        width: 195px;
+    }
+    .list-item{
+        >span,>b{
+            display: inline-block;
+            width: 60px;
+        }
+    }
+
+
 
     #audio{
         display:none;
