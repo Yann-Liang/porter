@@ -18,7 +18,7 @@ let mainWindow, tray = null, winURL = '',
 
 if (process.env.NODE_ENV === 'development') {
 	winURL = `http://localhost:9080`;
-	iconPath =  path.join(__dirname, 'static/icon/bird.png');
+	iconPath = path.join(__dirname, 'static/icon/bird.png');
 	iconPath1 = path.join(__dirname, 'static/icon/white-bird.png');;
 } else {
 	winURL = `file://${__dirname}/index.html`;
@@ -38,7 +38,8 @@ function createWindow() {
 		resizable: false, //改变窗口size
 		webPreferences: {
 			webSecurity: false
-		}
+		},
+		show: false,//优雅地显示窗口
 	});
 
 	// 加载应用的 index.html
@@ -53,12 +54,17 @@ function createWindow() {
 		// 通常会把多个 window 对象存放在一个数组里面，
 		// 与此同时，你应该删除相应的元素。
 		mainWindow = null
-	})
+	});
+
+	//所有东西都加载完成时，显示窗口并聚焦在上面提醒用户
+	mainWindow.once('ready-to-show', () => {
+		mainWindow.show();
+		mainWindow.focus();
+	});
 
 	tray = new Tray(iconPath);
 
 	const contextMenu = Menu.buildFromTemplate([
-
 		{
 			label: "打开面板",
 			click() {
@@ -79,10 +85,10 @@ function createWindow() {
 
 	//单点击 1.主窗口显示隐藏切换 2.清除闪烁
 	tray.on("click", function () {
-			clearInterval(timer);
-			tray.setImage(iconPath);
-			//主窗口显示隐藏切换
-			mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+		clearInterval(timer);
+		tray.setImage(iconPath);
+		//主窗口显示隐藏切换
+		mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
 	});
 
 	//注册开发者工具快捷键
@@ -148,7 +154,7 @@ ipcMain.on('news-tips', () => {
 	//系统托盘图标闪烁
 	let count = 0;
 	clearInterval(timer);
-	timer = setInterval(()=> {
+	timer = setInterval(() => {
 		count++;
 		if (count % 2 == 0) {
 			tray.setImage(iconPath)
