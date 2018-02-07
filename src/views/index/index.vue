@@ -59,7 +59,7 @@
                     low:0,
                     key:'dashusdt',
                 },
-                options:['btcusdt','ethusdt','dashusdt','eosusdt',/*'xrpbtc', 'bchusdt',*/],
+                options:['btmeth','ethusdt','dashusdt','eosusdt',/*'xrpbtc', 'bchusdt',*/],
                 watchList:{
 
                 },
