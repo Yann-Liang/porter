@@ -12,7 +12,7 @@ const BASE = process.env.API_ROOT,
     HUO_BI_BASE = `https://api.huobi.pro/market`,//火币行情接口
     HUO_BI_TRADE_BASE =`https://api.huobi.pro/v1`,//火币交易接口
     HUO_BI = {
-
+        account:`/v1/account/accounts`,
     }
 //登录
 export default {

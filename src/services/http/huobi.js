@@ -1,13 +1,5 @@
-//
-//  API-servies.js
-//  <project>
-//
-//  Created by yann_liang on 2017-05-25.
-//  Copyright 2017 yann_liang. All rights reserved.
-//
-
-import Http from 'axios';
-import API from '@/config/API-config';
+import Http from 'axios'
+import API from '@/config/API-config'
 
 Http.defaults.headers.post['Content-Type'] = "application/json;charset=utf-8";
 
@@ -30,7 +22,7 @@ class ApiService {
             getMenuList: this.post.bind(this, API.USER.getMenuList),
             logout: this.post.bind(this, API.USER.logout),
         }
-
+        //this.getAaccount=this.get.bind(this,API)
         this.interceptorsOfReq();
         this.interceptorsOfRes();
     }
