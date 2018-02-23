@@ -21,6 +21,7 @@
                 <li class="list-item"><b>监控:</b>{{key}}</li>
                 <li class="list-item"><b>高于值:</b>{{item.height}}</li>
                 <li class="list-item"><b>低于值:</b>{{item.low}}</li>
+                <li class="list-item"><b>状态:</b>{{item.watcher?'监控中...':'空闲'}}</li>
                 <button type="button" @click="watchKey(key)">开始监控</button>
                 <button type="button" @click="unwatchKey(key)">停止监控</button>
             </ul>
