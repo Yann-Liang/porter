@@ -1,27 +1,35 @@
-//
-//  API-servies.js
-//  <project>
-//
-//  Created by yann_liang on 2017-05-25.
-//  Copyright 2017 yann_liang. All rights reserved.
-//
-
-import Http from 'axios';
-import API from '@/config/API-config';
+import Http from 'axios'
+import API from '@/config/API-config'
 
 Http.defaults.headers.post['Content-Type'] = "application/json;charset=utf-8";
 
-const encodeParams = (params) => {
-    let r = '?',
-        p = [];
-    for(let key in params) {
-        p.push(`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
+function sign_sha(method, baseurl, path, data) {
+    var pars = [];
+    for (let item in data) {
+        pars.push(item + "=" + encodeURIComponent(data[item]));
     }
-    return r + p.join('&&');
-};
+    var p = pars.sort().join("&");
+    var meta = [method, baseurl, path, p].join('\n');
+    // console.log(meta);
+    var hash = HmacSHA256(meta, config.huobi.secretkey);
+    var Signature = encodeURIComponent(CryptoJS.enc.Base64.stringify(hash));
+    // console.log(`Signature: ${Signature}`);
+    p += `&Signature=${Signature}`;
+    // console.log(p);
+    return p;
+}
+
+function get_body() {
+    return {
+        AccessKeyId: config.huobi.access_key,
+        SignatureMethod: "HmacSHA256",
+        SignatureVersion: 2,
+        Timestamp: moment.utc().format('YYYY-MM-DDTHH:mm:ss'),
+    };
+}
 
 //请求类
-class ApiService {
+class huobiHttpService {
     constructor() {
 
         this.user = {
@@ -30,16 +38,15 @@ class ApiService {
             getMenuList: this.post.bind(this, API.USER.getMenuList),
             logout: this.post.bind(this, API.USER.logout),
         }
-
+        //this.getAaccount=this.get.bind(this,API.HUO_BI.account);
         this.interceptorsOfReq();
         this.interceptorsOfRes();
     }
 
     get(url, params) {
-        if(params) {
-            url += encodeParams(params);
-            url += `&sessionid=${localStorage.sessionid}&userID=${localStorage.user? JSON.parse(localStorage.user).userID :''}`;
-        }
+        var body = get_body();
+        var payload = sign_sha('GET', URL_HUOBI_PRO, path, body);
+        return call_api('GET', path, payload, body);
         return Http.get(url).then(res => res.data);
     }
 
