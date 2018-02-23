@@ -1,10 +1,14 @@
 const WebSocket = require('ws');
 const pako = require('pako');
 
-import store from '@/vuex/store';
+//import store from '@/vuex/store';
 import API from '@/config/API-config';
 
 let huobiWs = null;
+if (typeof window.kLine === "undefined") {
+    window.kLine = {};
+};
+
 const handle = data => {
     let chList = data.ch.split('.'),
         symbol = chList[1],
@@ -12,31 +16,21 @@ const handle = data => {
 
     switch (channel) {
         case 'depth':
-            console.log('depth', data.tick);
+            //console.log('depth', data.tick);
             break;
         case 'kline':
-            store.dispatch('updateKLine', {
-                type: symbol,
-                data: data.tick,
-            });
-           // dealKline(symbol,data.tick)
+            // store.dispatch('updateKLine', {
+            //     type: symbol,
+            //     data: data.tick,
+            // });
+            window.kLine[symbol] = data.tick;
             break;
         case 'trade':
-            dealTrade(symbol,data.tick)
+            //dealTrade(symbol,data.tick)
             break;
 
         default:
             console.log('default',symbol, JSON.stringify(data,null,2))
-    }
-}, dealKline = (type, tick) => {
-    if (type == 'dashusdt') {
-        console.log(tick);
-        if (tick.open >= 770) {
-            console.log(`>>>>>>>>>>>>>>>>>>>>>>>>>>>>`);
-        };
-        if (tick.open <=760.00) {
-            console.log(`<<<<<<<<<<<<================`);
-        }
     }
 },dealTrade= (type,tick) => {
     console.log('dealTrade',type,tick)

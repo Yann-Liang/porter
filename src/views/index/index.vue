@@ -27,14 +27,14 @@
             </ul>
         </div>
         <main>
-            <ul class="list" v-for="(item,index) in getKLine" :key="index">
+            <ul class="list" v-for="(item,index) in kLineData" :key="index">
                 <li class="list-item"><b>交易对:</b>{{index}}</li>
                 <li class="list-item" v-for="(i,k) in item" :key="k">
                     <span>{{k}}:</span>{{i}}
                 </li>
             </ul>
         </main>
-
+        <pre>{{kLineData}}</pre>
         <audio id="audio" class="audio" preload="auto" loop="loop" :src="audioSrc"></audio>
     </div>
 </template>
@@ -44,7 +44,7 @@
     import APIServies from '@/services/API-servies';
     import test from '@/services/test-servies';
     import Ws from '@/services/ws'
-    import {mapState, mapActions, mapGetters} from 'vuex';
+    //import {mapState, mapActions, mapGetters} from 'vuex';
     import {ipcRenderer} from 'electron';
 
     export default {
@@ -63,6 +63,7 @@
                 watchList:{
 
                 },
+                kLineData:window.kLine
             }
         },
         //数组或对象，用于接收来自父组件的数据
@@ -71,7 +72,7 @@
         },
         //计算
         computed: {
-            ...mapGetters(['getKLine',]),
+            //...mapGetters(['getKLine',]),
         },
         //方法
         methods: {
@@ -107,7 +108,7 @@
             watchKey(key){
                 this.watchList[key].watcher&&this.watchList[key].watcher();
 
-                this.watchList[key].watcher=this.$watch(`getKLine.${key}.close`, function(now,old){
+                this.watchList[key].watcher=this.$watch(`kLineData.${key}.close`, function(now,old){
                     console.log(now,this.form.num)
                     if((this.form.height&&now>=this.form.height)||(this.form.low&&now>=this.form.low)){//
                         console.log('gogo');
