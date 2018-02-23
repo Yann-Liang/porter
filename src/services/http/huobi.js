@@ -91,4 +91,4 @@ class huobiHttpService {
 }
 
 //导出一个对象
-export default new ApiService();
+export default new huobiHttpService();

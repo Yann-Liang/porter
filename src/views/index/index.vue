@@ -35,7 +35,6 @@
             </ul>
         </main>
 
-        <p>百分比:{{a}}%</p>
         <audio id="audio" class="audio" preload="auto" loop="loop" :src="audioSrc"></audio>
     </div>
 </template>
@@ -73,11 +72,6 @@
         //计算
         computed: {
             ...mapGetters(['getKLine',]),
-            a(){
-                let item=this.getKLine.dashusdt,
-                {high,low}=item;
-                return (high-low)/low*100;
-            }
         },
         //方法
         methods: {
@@ -169,7 +163,7 @@
             // })
 
             APIServies.get(`https://api.huobi.pro\n
-                /v1/common/symbols ?\n
+                /v1/common/symbols?\n
                 AccessKeyId=82af2d5b-845a4086-a5733bb7-06d6c\n
                 &SignatureMethod=HmacSHA256\n
                 &SignatureVersion=2\n

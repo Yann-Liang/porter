@@ -2,8 +2,7 @@ const WebSocket = require('ws');
 const pako = require('pako');
 
 import store from '@/vuex/store';
-
-const WS_HUOBI_URL = 'wss://api.huobipro.com/ws';
+import API from '@/config/API-config';
 
 let huobiWs = null;
 const handle = data => {
@@ -72,7 +71,7 @@ function subscribe(ws) {
 }
 
 function init() {
-    huobiWs = new WebSocket(WS_HUOBI_URL);
+    huobiWs = new WebSocket(API.HUO_BI.ws);
     huobiWs.on('open', () => {
         console.log(new Date(),'ws open');
         subscribe(huobiWs);
