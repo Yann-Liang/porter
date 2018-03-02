@@ -97,6 +97,4 @@ function init() {
 
 init();
 
-export default {
-    huobiWs
-};
+export default huobiWs;

@@ -43,8 +43,8 @@
     //import comHeader from '@/components/header/';
     import APIServies from '@/services/API-servies';
     import test from '@/services/test-servies';
-    import Ws from '@/services/ws'
-    //import {mapState, mapActions, mapGetters} from 'vuex';
+    //import Ws from '@/services/ws'
+    import hadaxWs from '@/services/ws/hadax';
     import {ipcRenderer} from 'electron';
 
     export default {
