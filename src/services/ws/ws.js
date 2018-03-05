@@ -5,9 +5,6 @@ const pako = require('pako');
 import API from '@/config/API-config';
 
 let huobiWs = null;
-if (typeof window.kLine === "undefined") {
-    window.kLine = {};
-};
 
 const handle = data => {
     let chList = data.ch.split('.'),

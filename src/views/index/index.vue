@@ -42,7 +42,6 @@
 <script>
     //import comHeader from '@/components/header/';
     import APIServies from '@/services/API-servies';
-    import test from '@/services/test-servies';
     //import Ws from '@/services/ws'
     import hadaxWs from '@/services/ws/hadax';
     import {ipcRenderer} from 'electron';
@@ -129,7 +128,6 @@
         //生命周期函数
         created() {
             let time=new Date().Format("yyyy-MM-ddTHH:mm:ss");
-              //  test();
             // APIServies.get(`https://api.huobi.pro/market/history/kline?\n
             //     AccessKeyId=82af2d5b-845a4086-a5733bb7-06d6c\n
             //     &SignatureMethod=HmacSHA256\n

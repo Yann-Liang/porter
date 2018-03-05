@@ -9,6 +9,10 @@ import '../static/css/reset.css'
 //less
 import "./less/index.less"
 
+if (typeof window.kLine === "undefined") {
+  window.kLine = {};
+};
+
 if (!process.env.IS_WEB){
     Vue.use(require('vue-electron'));
 }
