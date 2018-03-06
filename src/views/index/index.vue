@@ -41,9 +41,10 @@
 
 <script>
     //import comHeader from '@/components/header/';
-    import APIServies from '@/services/API-servies';
-    //import Ws from '@/services/ws'
-    import hadaxWs from '@/services/ws/hadax';
+    //import huobiWs from '@/services/ws/huobi';
+//    import hadaxWs from '@/services/ws/hadax';
+    import huobiHttp from '@/services/http/huobi';
+    import hadaxHttp from '@/services/http/hadax';
     import {ipcRenderer} from 'electron';
 
     export default {
@@ -127,7 +128,16 @@
         },
         //生命周期函数
         created() {
-            let time=new Date().Format("yyyy-MM-ddTHH:mm:ss");
+            huobiHttp.getAaccount({}).then((res)=>{
+                console.log('getAaccount',res)
+            }).catch((error)=>{
+                console.warn('getAaccount error',error)
+            });
+            hadaxHttp.getAaccount({}).then((res)=>{
+                console.log('getAaccount',res)
+            }).catch((error)=>{
+                console.warn('getAaccount error',error)
+            });
             // APIServies.get(`https://api.huobi.pro/market/history/kline?\n
             //     AccessKeyId=82af2d5b-845a4086-a5733bb7-06d6c\n
             //     &SignatureMethod=HmacSHA256\n
@@ -161,21 +171,6 @@
             //     console.log('error',error)
             // })
 
-            APIServies.get(`https://api.huobi.pro\n
-                /v1/common/symbols?\n
-                AccessKeyId=82af2d5b-845a4086-a5733bb7-06d6c\n
-                &SignatureMethod=HmacSHA256\n
-                &SignatureVersion=2\n
-                &Timestamp=${time}\n
-                &order-id=1234567890\n
-                &Signature=calculated value
-                `,{
-
-            }).then(res=>{
-                console.log('交易对',res);
-            }).catch(error=>{
-                console.log('error',error)
-            })
         },
         beforeMount() {
 

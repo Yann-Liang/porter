@@ -13,10 +13,10 @@ const BASE = process.env.API_ROOT,
     HUO_BI_TRADE_BASE = `https://api.huobi.pro/v1`,//火币交易接口
     HUO_BI = {
         ws: `wss://api.huobipro.com/ws`,
-        account: `/v1/account/accounts`,
+        accounts: `https://api.huobi.pro/v1/account/accounts`,
     },
-    HADAX_marketBase = `https://api.hadax.com/market`,
-    HADAX_tradeBase=`https://api.hadax.com/v1`,
+    HADAX_marketBase = `https://api.hadax.com`,
+    HADAX_tradeBase=`https://api.hadax.com`,
     HADAX = {
         ws: `wss://api.hadax.com/ws`,
         marketBase: `https://api.hadax.com/market`,
