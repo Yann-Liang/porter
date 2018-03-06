@@ -39,7 +39,8 @@ Http.defaults.headers.post["User-Agent"] = "Mozilla/5.0 (Windows NT 6.1; WOW64) 
 //请求类
 class huobiHttpService {
     constructor() {
-        this.getAaccount=this.get.bind(this,API.HADAX.accounts);
+        this.getAaccount = this.get.bind(this, API.HADAX.accounts);
+
     }
 
     get(url, params = {}) {

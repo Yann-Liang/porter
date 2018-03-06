@@ -133,43 +133,41 @@
             }).catch((error)=>{
                 console.warn('getAaccount error',error)
             });
-            hadaxHttp.getAaccount({}).then((res)=>{
-                console.log('getAaccount',res)
+
+            huobiHttp.klineHistory({
+                symbol:'btcusdt',
+                period:'5min',//1min, 5min, 15min, 30min, 60min, 1day, 1mon, 1week, 1year
+                size:150,//[1,2000] 默认150
+            }).then((res)=>{
+                console.log('klineHistory',res)
             }).catch((error)=>{
-                console.warn('getAaccount error',error)
+                console.warn('klineHistory error',error)
             });
-            // APIServies.get(`https://api.huobi.pro/market/history/kline?\n
-            //     AccessKeyId=82af2d5b-845a4086-a5733bb7-06d6c\n
-            //     &SignatureMethod=HmacSHA256\n
-            //     &SignatureVersion=2\n
-            //     &Timestamp=${time}\n
-            //     &order-id=1234567890\n
-            //     &Signature=calculated value\n
-            //     &symbol=dashusdt\n
-            //     `,{
-            // }).then(res=>{
-            //     console.log('res',res);
-            //     this.tableData=res.data;
-            // }).catch(error=>{
-            //     console.log('error',error)
-            // })
 
-            // APIServies.get(`https://api.huobi.pro/market/detail/merged?\n
-            //     AccessKeyId=82af2d5b-845a4086-a5733bb7-06d6c\n
-            //     &SignatureMethod=HmacSHA256\n
-            //     &SignatureVersion=2\n
-            //     &Timestamp=${time}\n
-            //     &order-id=1234567890\n
-            //     &Signature=calculated value
-            //     &symbol=btcusdt
-            //     `,{
+            huobiHttp.tradeHistory({
+                symbol:'btcusdt',
+                size:150,//[1,2000] 默认1
+            }).then((res)=>{
+                console.log('tradeHistory',res)
+            }).catch((error)=>{
+                console.warn('tradeHistory error',error)
+            });
 
-            // }).then(res=>{
-            //     console.log('res',res);
-            //     this.tableData=res.data;
-            // }).catch(error=>{
-            //     console.log('error',error)
-            // })
+            huobiHttp.accountBalance({
+            }).then((res)=>{
+                console.log('accountBalance',res)
+            }).catch((error)=>{
+                console.warn('accountBalance error',error)
+            });
+
+
+            // hadaxHttp.getAaccount({
+
+            // }).then((res)=>{
+            //     console.log('getAaccount',res)
+            // }).catch((error)=>{
+            //     console.warn('getAaccount error',error)
+            // });
 
         },
         beforeMount() {

@@ -67,15 +67,12 @@ Http.defaults.headers.post["User-Agent"] = "Mozilla/5.0 (Windows NT 6.1; WOW64) 
 class huobiHttpService {
     constructor() {
 
-        this.user = {
-            register: this.post.bind(this, API.USER.register),
-            login: this.post.bind(this, API.USER.login),
-            getMenuList: this.post.bind(this, API.USER.getMenuList),
-            logout: this.post.bind(this, API.USER.logout),
-        }
         this.getAaccount = this.get.bind(this, API.HUO_BI.accounts);
-        interceptorsOfReq();
-        interceptorsOfRes();
+        this.klineHistory = this.get.bind(this, API.HUO_BI.klineHistory);
+        this.tradeHistory = this.get.bind(this, API.HUO_BI.tradeHistory);
+        this.accountBalance = this.get.bind(this, API.HUO_BI.accountBalance);
+        // interceptorsOfReq();
+        // interceptorsOfRes();
     }
 
     get(url, params = {}) {
