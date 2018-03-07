@@ -59,11 +59,11 @@
                 audioSrc: `${__static}/music/1.mp3`,
                 isPlaying:false,
                 form: {
-                    height:780,
+                    height:700,
                     low:0,
                     key:'dashusdt',
                 },
-                options:['btmeth','ethusdt','dashusdt','eosusdt',/*'xrpbtc', 'bchusdt',*/],
+                options:['ethusdt','btmeth','dashusdt','eosusdt',/*'xrpbtc', 'bchusdt',*/],
                 watchList:{
 
                 },
@@ -104,24 +104,32 @@
                         watcher:null,
                         height:this.form.height,
                         low:this.form.low,
+                        timer:null,
                     };
                 }else{
                     alert('请勿重复添加');
                 }
             },
             watchKey(key){
-                this.watchList[key].watcher&&this.watchList[key].watcher();
+                let watchItem=this.watchList[key];
+                watchItem.watcher&&watchItem.watcher();
 
-                this.watchList[key].watcher=this.$watch(`kLineData.${key}.close`, function(now,old){
+                watchItem.watcher=this.$watch(`kLineData.${key}.close`, function(now,old){
                     console.log(now,this.form.num)
-                    if((this.form.height&&now>=this.form.height)||(this.form.low&&now>=this.form.low)){//
-                        console.log('gogo');
+                    if((this.form.height&&now>=watchItem.height)||(this.form.low&&now>=watchItem.low)){//
                         ipcRenderer.send('news-tips');
-                        email.send(`${key}现在高于${this.form.height}或者低于${this.form.low}`,`${key}行情：${this.kLineData[key]}`,
+                        email.send(`品种：${key}行情：现在高于${watchItem.height}或者低于${watchItem.low}`,`666`,
                         `<h1>${key}行情：</h1>
                         <p>${JSON.stringify(this.kLineData[key])}</p>
                         `
                         );
+                        this.unwatchKey(key);
+                        if(watchItem.timer&&watchItem.timer!=null){
+                            watchItem.timer=setTimeout(()=>{
+                                clearTimeout(watchItem.timer);
+                                this.watchKey(key);
+                            },300000);
+                        }
                         this.play();
                     }else{
                         this.stop();
@@ -135,7 +143,10 @@
                 this.watchList[key].watcher&&this.watchList[key].watcher();
             },
             sendEmail(){
-                email.send('一封来自Node Mailer的邮件','一封来自Node Mailer的邮件','<h1>你好，这是一封来自NodeMailer的邮件！</h1>666666');
+                email.send(`test`,`test`,
+                        `test
+                        `
+                        );
             }
         },
         //生命周期函数
