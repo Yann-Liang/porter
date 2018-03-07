@@ -16,6 +16,7 @@
             <button type="button" @click="addWatch">添加监控</button>
             <button type="button" @click="stop">停止声音</button>
         </form>
+
         <div class="clearfix">
             <ul class="list fl" v-for="(item,key) in watchList" :key="key">
                 <li class="list-item"><b>监控:</b>{{key}}</li>
@@ -34,18 +35,21 @@
                 </li>
             </ul>
         </main>
-        <pre>{{kLineData}}</pre>
+        <button type="button" @click="sendEmail">发送邮件</button>
         <audio id="audio" class="audio" preload="auto" loop="loop" :src="audioSrc"></audio>
     </div>
 </template>
 
 <script>
     //import comHeader from '@/components/header/';
-    //import huobiWs from '@/services/ws/huobi';
+    import huobiWs from '@/services/ws/huobi';
 //    import hadaxWs from '@/services/ws/hadax';
     import huobiHttp from '@/services/http/huobi';
     import hadaxHttp from '@/services/http/hadax';
     import {ipcRenderer} from 'electron';
+    import EmailService from '@/services/email-service';
+
+    const email=new EmailService();
 
     export default {
         name: 'landing-page',
@@ -113,6 +117,7 @@
                     if((this.form.height&&now>=this.form.height)||(this.form.low&&now>=this.form.low)){//
                         console.log('gogo');
                         ipcRenderer.send('news-tips');
+                        email.send(`${key}现在高于${this.form.height}或者低于${this.form.low}`,`${key}行情：${JSON.stringify(now)}`,'<h1>你好，这是一封来自NodeMailer的邮件！</h1>666666');
                         this.play();
                     }else{
                         this.stop();
@@ -124,6 +129,9 @@
             unwatchKey(key){
                 this.stop()
                 this.watchList[key].watcher&&this.watchList[key].watcher();
+            },
+            sendEmail(){
+                email.send('一封来自Node Mailer的邮件','一封来自Node Mailer的邮件','<h1>你好，这是一封来自NodeMailer的邮件！</h1>666666');
             }
         },
         //生命周期函数

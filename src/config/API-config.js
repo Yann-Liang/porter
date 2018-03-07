@@ -1,5 +1,4 @@
 const config = require('@/config/key-config.json');
-console.log(config.huobi)
 
 //请求地址
 const BASE = process.env.API_ROOT,

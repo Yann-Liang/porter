@@ -10,7 +10,12 @@ import '../static/css/reset.css'
 import "./less/index.less"
 
 if (typeof window.kLine === "undefined") {
-  window.kLine = {};
+  window.kLine = {
+    btmeth: {},
+    eosusdt: {},
+    ethusdt: {},
+    dashusdt:{},
+  };
 };
 
 if (!process.env.IS_WEB){
