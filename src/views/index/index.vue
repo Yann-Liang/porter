@@ -59,7 +59,7 @@
                 audioSrc: `${__static}/music/1.mp3`,
                 isPlaying:false,
                 form: {
-                    height:800,
+                    height:780,
                     low:0,
                     key:'dashusdt',
                 },
@@ -117,7 +117,11 @@
                     if((this.form.height&&now>=this.form.height)||(this.form.low&&now>=this.form.low)){//
                         console.log('gogo');
                         ipcRenderer.send('news-tips');
-                        email.send(`${key}现在高于${this.form.height}或者低于${this.form.low}`,`${key}行情：${JSON.stringify(now)}`,'<h1>你好，这是一封来自NodeMailer的邮件！</h1>666666');
+                        email.send(`${key}现在高于${this.form.height}或者低于${this.form.low}`,`${key}行情：${this.kLineData[key]}`,
+                        `<h1>${key}行情：</h1>
+                        <p>${JSON.stringify(this.kLineData[key])}</p>
+                        `
+                        );
                         this.play();
                     }else{
                         this.stop();
