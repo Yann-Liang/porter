@@ -63,7 +63,7 @@
                     low:0,
                     key:'dashusdt',
                 },
-                options:['ethusdt','btmeth','dashusdt','eosusdt',/*'xrpbtc', 'bchusdt',*/],
+                options:['ethusdt','btmeth','dashusdt','eosusdt','btcusdt',/*'xrpbtc', 'bchusdt',*/],
                 watchList:{
 
                 },
@@ -122,7 +122,11 @@
                         `<h1>${key}行情：</h1>
                         <p>${JSON.stringify(this.kLineData[key])}</p>
                         `
-                        );
+                        ).then((res)=>{
+                            console.log(res);
+                        }).catch((error)=>{
+                            console.log(error);
+                        });
                         this.unwatchKey(key);
                         if(watchItem.timer&&watchItem.timer!=null){
                             watchItem.timer=setTimeout(()=>{
