@@ -63,7 +63,7 @@
                     low:0,
                     key:'dashusdt',
                 },
-                options:['ethusdt','btmeth','dashusdt','eosusdt',/*'xrpbtc', 'bchusdt',*/],
+                options:['ethusdt','btmeth','dashusdt','eosusdt','btcusdt',/*'xrpbtc', 'bchusdt',*/],
                 watchList:{
 
                 },
@@ -124,12 +124,9 @@
                         `
                         );
                         this.unwatchKey(key);
-                        if(watchItem.timer&&watchItem.timer!=null){
-                            watchItem.timer=setTimeout(()=>{
-                                clearTimeout(watchItem.timer);
-                                this.watchKey(key);
-                            },300000);
-                        }
+                         watchItem.timer=setTimeout(()=>{
+                            this.watchKey(key);
+                        },120000);
                         this.play();
                     }else{
                         this.stop();

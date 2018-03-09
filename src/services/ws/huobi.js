@@ -27,14 +27,14 @@ const handle = data => {
             break;
 
         default:
-            console.log('default',symbol, JSON.stringify(data,null,2))
+            //console.log('default',symbol, JSON.stringify(data,null,2))
     }
 },dealTrade= (type,tick) => {
-    console.log('dealTrade',type,tick)
+    //console.log('dealTrade',type,tick)
 }
 
 function subscribe(ws) {
-    const symbols = ['btmeth','ethusdt','dashusdt','eosusdt',/*'xrpbtc', 'bchusdt',*/];
+    const symbols = ['btmeth','ethusdt','dashusdt','eosusdt','btcusdt',/*'xrpbtc', 'bchusdt',*/];
     // 谨慎选择合并的深度，ws每次推送全量的深度数据，若未能及时处理容易引起消息堆积并且引发行情延时
     for (let symbol of symbols) {
         // 订阅深度
