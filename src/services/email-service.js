@@ -13,6 +13,7 @@ class EmailService {
         });
     }
     send(subject, text, html) {
+        console.log('send email', subject, text, html);
         return new Promise((resolve, reject) => {
             this.email.sendMail({
                 from: `17154838705@163.com`,//'"你的名字" <你的邮箱地址>',

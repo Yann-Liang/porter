@@ -122,7 +122,11 @@
                         `<h1>${key}行情：</h1>
                         <p>${JSON.stringify(this.kLineData[key])}</p>
                         `
-                        );
+                        ).then((res)=>{
+                            console.log(res);
+                        }).catch((error)=>{
+                            console.log(error);
+                        });
                         this.unwatchKey(key);
                          watchItem.timer=setTimeout(()=>{
                             this.watchKey(key);
