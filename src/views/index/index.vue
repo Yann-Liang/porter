@@ -61,9 +61,9 @@
                 form: {
                     height:700,
                     low:0,
-                    key:'dashusdt',
+                    key:'btcusdt',
                 },
-                options:['ethusdt','btmeth','dashusdt','eosusdt','btcusdt',/*'xrpbtc', 'bchusdt',*/],
+                options:['ethusdt','btmeth','etcusdt','eosusdt','btcusdt',/*'xrpbtc', 'bchusdt',*/],
                 watchList:{
 
                 },
@@ -76,7 +76,6 @@
         },
         //计算
         computed: {
-            //...mapGetters(['getKLine',]),
         },
         //方法
         methods: {
