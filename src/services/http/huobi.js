@@ -43,7 +43,7 @@ const interceptorsOfReq = () => {
         }
         var p = pars.sort().join("&");
         var meta = [method, baseurl, path, p].join('\n');
-        // console.log(meta);
+        console.log('meta',meta);
         var hash = HmacSHA256(meta, config.huobi.secretkey);
         var Signature = encodeURIComponent(CryptoJS.enc.Base64.stringify(hash));
         // console.log(`Signature: ${Signature}`);
@@ -67,7 +67,7 @@ Http.defaults.headers.post["User-Agent"] = "Mozilla/5.0 (Windows NT 6.1; WOW64) 
 class huobiHttpService {
     constructor() {
 
-        this.getAaccount = this.get.bind(this, API.HUO_BI.accounts);
+        this.getAccount = this.get.bind(this, API.HUO_BI.accounts);
         this.klineHistory = this.get.bind(this, API.HUO_BI.klineHistory);
         this.tradeHistory = this.get.bind(this, API.HUO_BI.tradeHistory);
         this.accountBalance = this.get.bind(this, API.HUO_BI.accountBalance);
@@ -80,7 +80,7 @@ class huobiHttpService {
         for (const key in params) {
             body[key] = params[key];
         }
-        let payload = sign_sha('GET', `api.huobi.pro`, `/v1/account/accounts`, body);
+        let payload = sign_sha('GET', `api.huobipro.com`, `/v1/account/accounts`, body);
         return Http.get(`${url}?${payload}`).then(res => res.data);
     }
 

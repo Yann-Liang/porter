@@ -151,10 +151,10 @@
         },
         //生命周期函数
         created() {
-            huobiHttp.getAaccount({}).then((res)=>{
-                console.log('getAaccount',res)
+            huobiHttp.getAccount({}).then((res)=>{
+                console.log('getAccount',res)
             }).catch((error)=>{
-                console.warn('getAaccount error',error)
+                console.warn('getAccount error',error)
             });
 
             huobiHttp.klineHistory({

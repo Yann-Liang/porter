@@ -3,12 +3,25 @@ const config = require('@/config/key-config.json');
 //请求地址
 const BASE = process.env.API_ROOT,
 
-    HUO_BI_BASE = `https://api.huobi.pro`,//火币行情接口
-    HUO_BI_TRADE_BASE = `https://api.huobi.pro/v1`,//火币交易接口
+    HUO_BI_BASE = `https://api.huobipro.com`,//火币行情接口
+    // HUO_BI = {
+    //     ws: `wss://api.huobipro.com/ws`,
+    //     klineHistory: `${HUO_BI_BASE}/market/history/kline`,//获取K线数据
+    //     detail: `${HUO_BI_BASE}/market/detail/merged`,//获取聚合行情(Ticker)
+    //     depthMarket: `${HUO_BI_BASE}/market/depth`,//获取 Market Depth 数据
+    //     tradeMarket: `${HUO_BI_BASE}/market/trade`,//获取 Trade Detail 数据
+    //     tradeHistory: `${HUO_BI_BASE}/market/history/trade`,//批量获取最近的交易记录
+    //     marketDetail: `${HUO_BI_BASE}/market/detail`,//获取 Market Detail 24小时成交量数据
+    //     querySymbols: `${HUO_BI_BASE}/v1/common/symbols`,//查询Pro站支持的所有交易对及精度
+    //     queryCurrencys: `${HUO_BI_BASE}/v1/common/currencys`,//查询Pro站支持的所有币种
+    //     queryTimestamp: `${HUO_BI_BASE}/v1/common/timestamp`,//查询系统当前时间
+    //     accounts: `${HUO_BI_BASE}/v1/account/accounts`,//查询当前用户的所有账户(即account-id)
+    //     accountBalance:`${HUO_BI_BASE}/v1/account/accounts/${config.huobi.account_id}/balance`,/// 查询Pro站指定账户的余额
+    //     subOrder:`${HUO_BI_BASE}/v1/order/orders/place`,//Pro站下单
+    // },
     HUO_BI = {
         ws: `wss://api.huobipro.com/ws`,
         klineHistory: `${HUO_BI_BASE}/market/history/kline`,//获取K线数据
-        accounts: `https://api.huobi.pro/v1/account/accounts`,
         detail: `${HUO_BI_BASE}/market/detail/merged`,//获取聚合行情(Ticker)
         depthMarket: `${HUO_BI_BASE}/market/depth`,//获取 Market Depth 数据
         tradeMarket: `${HUO_BI_BASE}/market/trade`,//获取 Trade Detail 数据
@@ -44,7 +57,6 @@ const BASE = process.env.API_ROOT,
 
 export default {
     HUO_BI_BASE,
-    HUO_BI_TRADE_BASE,
     HUO_BI,
     HADAX,
 
