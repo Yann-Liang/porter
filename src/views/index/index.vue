@@ -244,11 +244,9 @@
     .list-item{
         >span,>b{
             display: inline-block;
-            width: 60px;
+            width: 55px;
         }
     }
-
-
 
     #audio{
         display:none;
@@ -259,7 +257,5 @@
         display: flex;
         justify-content: space-between;
     }
-
-
 
 </style>

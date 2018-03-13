@@ -1,16 +1,28 @@
 <template>
     <div class="header">
-        <span class="account" @mouseover="showBalance" @mouseout="hideBalance">账户:{{account.id}}
+        <span class="account">账户:{{account.id}}
             <ul class="balance">
-                <li v-for="(i,index) in balance.list" :key="index">{{i}}</li>
+                <li v-for="(i,key) in balance" :key="key">
+                    <span>币种:{{key}}</span>
+                    <span>可用:{{i.trade}}</span>
+                    <span>冻结:{{i.frozen}}</span>
+                </li>
+                <li v-if="isEmpty">穷光蛋!!!</li>
             </ul>
-        </span>
 
+        </span>
+        <div class="toolbar">
+			<!-- <i class="toolbar-min" @click="min">-</i>
+			<i class="toolbar-max" @click="max">O</i> -->
+			<i class="toolbar-close" @click="close">隐藏</i>
+		</div>
     </div>
 </template>
 
 <script>
+    import { ipcRenderer } from 'electron';
     import huobiHttp from '@/services/http/huobi';
+
     export default {
         data() {
             return {
@@ -18,12 +30,8 @@
                     id:'',
                 },
                 balance:{
-                    id:'',
-                    list:[],
-                    type:'',
-                    state:'',
+
                 },
-                show:false,
             }
         },
         //数组或对象，用于接收来自父组件的数据
@@ -32,16 +40,21 @@
         },
         //计算
         computed: {
-
+            isEmpty(){
+                return Object.keys(this.balance)==0;
+            }
         },
         //方法
         methods: {
-            showBalance(){
-                this.show=true;
-            },
-            hideBalance(){
-                this.show=false;
-            },
+            // min() {
+			// 	ipcRenderer.send('minimize-window');
+			// },
+			// max() {
+			// 	ipcRenderer.send('max-window');
+			// },
+			close() {
+				ipcRenderer.send('hide-window');
+			},
         },
         //生命周期函数
         created() {
@@ -56,9 +69,19 @@
 
             huobiHttp.accountBalance({
             }).then((res)=>{
-                console.log('accountBalance',res);
                 if(res.status=='ok'){
-                    this.balance=res.data;
+                    const list=res.data.list,
+                        len=list.length;
+                    let balance={};
+                    for(let i=0,item;i<len;i++){
+                        item=list[i];
+                        if(item.balance>0){
+                            typeof balance[item.currency]=="undefined"?balance[item.currency]={}:'';
+                            balance[item.currency][item.type]=item.balance;
+                        }
+                    }
+                    this.balance=balance;
+
                 }
 
             }).catch((error)=>{
@@ -90,6 +113,8 @@
 
 <style lang="less" scoped>
     .header{
+        display: flex;
+        justify-content: space-between;
         margin: 0 0 5px;
         padding: 0 5px;
         height: 28px;
@@ -99,6 +124,7 @@
     }
 
     .account {
+        cursor: pointer;
         &:hover .balance{
             display: block;
         }
@@ -107,8 +133,23 @@
     .balance{
         position: relative;top: -1px;
         display: none;
-        width: 520px;
+        padding: 0 5px;
+        width: 500px;
         background: #ccc;
 
     }
+    .toolbar {
+        height: 30px;
+		//-webkit-app-region: no-drag;
+		i {
+            font-style: normal;
+			cursor: pointer;
+			display: inline-block;
+			margin: 0 5px;
+            background-repeat: no-repeat;
+            &:last-child{
+                margin-right: 0px;
+            }
+		}
+	}
 </style>

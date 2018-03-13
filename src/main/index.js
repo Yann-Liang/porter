@@ -31,7 +31,7 @@ function createWindow() {
 	mainWindow = new BrowserWindow({
 		width: 1200,
 		height: 740,
-		minWidth: 1200,
+		minWidth: 1250,
 		minHeight: 600,
 		useContentSize: true,
 		frame: true, //是否创建有边框窗口
@@ -145,9 +145,18 @@ ipcMain.on('hide-window', () => {
 });
 
 //最小化
-ipcMain.on('minimize-window', () => {
-	mainWindow.minimize();
-});
+// ipcMain.on('minimize-window', () => {
+// 	mainWindow.minimize();
+// });
+
+//最大化
+// ipcMain.on('max-window', () => {
+// 	if (mainWindow.isMaximized()) {
+// 		mainWindow.maximize();
+// 	} else {
+// 		mainWindow.unmaximize();
+// 	}
+// });
 
 //消息提示
 ipcMain.on('news-tips', () => {
@@ -164,7 +173,6 @@ ipcMain.on('news-tips', () => {
 	}, 600);
 });
 
-
 function clearCache() {
 	let path = app.getPath('appData') + '/Electron/Cache',
 		files = [];
@@ -174,16 +182,4 @@ function clearCache() {
 			fs.unlinkSync(path + "/" + file);
 		});
 	}
-}
-
-/*
-import { autoUpdater } from 'electron-updater'
-
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
-
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
-*/
+};
