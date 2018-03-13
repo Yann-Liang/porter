@@ -43,7 +43,7 @@ const interceptorsOfReq = () => {
         }
         var p = pars.sort().join("&");
         var meta = [method, baseurl, path, p].join('\n');
-        console.log('meta',meta);
+        //console.log('meta',meta);
         var hash = HmacSHA256(meta, config.huobi.secretkey);
         var Signature = encodeURIComponent(CryptoJS.enc.Base64.stringify(hash));
         // console.log(`Signature: ${Signature}`);
@@ -71,6 +71,7 @@ class huobiHttpService {
         this.klineHistory = this.get.bind(this, API.HUO_BI.klineHistory);
         this.tradeHistory = this.get.bind(this, API.HUO_BI.tradeHistory);
         this.accountBalance = this.get.bind(this, API.HUO_BI.accountBalance);
+        this.querySymbols = this.get.bind(this, API.HUO_BI.querySymbols);
         // interceptorsOfReq();
         // interceptorsOfRes();
     }
@@ -80,8 +81,8 @@ class huobiHttpService {
         for (const key in params) {
             body[key] = params[key];
         }
-        let payload = sign_sha('GET', `api.huobipro.com`, `/v1/account/accounts`, body);
-        return Http.get(`${url}?${payload}`).then(res => res.data);
+        let payload = sign_sha('GET', `api.huobipro.com`, url, body);
+        return Http.get(`${API.HUO_BI_BASE}${url}?${payload}`).then(res => res.data);
     }
 
     post(url, params = {}) {

@@ -157,6 +157,20 @@
                 console.warn('getAccount error',error)
             });
 
+            huobiHttp.accountBalance({
+            }).then((res)=>{
+                console.log('accountBalance',res)
+            }).catch((error)=>{
+                console.warn('accountBalance error',error)
+            });
+
+            huobiHttp.querySymbols({
+            }).then((res)=>{
+                console.log('querySymbols',res)
+            }).catch((error)=>{
+                console.warn('accountBalance error',error)
+            });
+
             huobiHttp.klineHistory({
                 symbol:'btcusdt',
                 period:'5min',//1min, 5min, 15min, 30min, 60min, 1day, 1mon, 1week, 1year
@@ -174,13 +188,6 @@
                 console.log('tradeHistory',res)
             }).catch((error)=>{
                 console.warn('tradeHistory error',error)
-            });
-
-            huobiHttp.accountBalance({
-            }).then((res)=>{
-                console.log('accountBalance',res)
-            }).catch((error)=>{
-                console.warn('accountBalance error',error)
             });
 
 
