@@ -8,4 +8,4 @@ npm-debug.log.*
 thumbs.db
 !.gitkeep
 .project
-scr/config/key-config.json
+/scr/config/key-config.json
