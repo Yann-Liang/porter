@@ -1,10 +1,10 @@
 <template>
     <div class="header">
-        <div class="account" @mouseover="showBalance" @mouseout="hideBalance">账户:{{account.id}}
+        <span class="account" @mouseover="showBalance" @mouseout="hideBalance">账户:{{account.id}}
             <ul class="balance">
                 <li v-for="(i,index) in balance.list" :key="index">{{i}}</li>
             </ul>
-        </div>
+        </span>
 
     </div>
 </template>
