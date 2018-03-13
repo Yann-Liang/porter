@@ -118,15 +118,11 @@
                     console.log(now,this.form.num)
                     if((this.form.height&&now>=watchItem.height)||(this.form.low&&now>=watchItem.low)){//
                         ipcRenderer.send('news-tips');
-                        email.send(`品种：${key}行情：现在高于${watchItem.height}或者低于${watchItem.low}`,`666`,
+                        email.send(`品种：${key}行情：现在高于${watchItem.height}或者低于${watchItem.low}`,
                         `<h1>${key}行情：</h1>
                         <p>${JSON.stringify(this.kLineData[key])}</p>
                         `
-                        ).then((res)=>{
-                            console.log(res);
-                        }).catch((error)=>{
-                            console.log(error);
-                        });
+                        );
                         this.unwatchKey(key);
                          watchItem.timer=setTimeout(()=>{
                             this.watchKey(key);
@@ -144,10 +140,8 @@
                 this.watchList[key].watcher&&this.watchList[key].watcher();
             },
             sendEmail(){
-                email.send(`test`,`test`,
-                        `test
-                        `
-                        );
+                //email.send(`test`, `test html`);
+                email.sendAccountBalance('huobi',balance);
             }
         },
         //生命周期函数

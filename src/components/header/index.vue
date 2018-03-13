@@ -2,10 +2,15 @@
     <div class="header">
         <span class="account">账户:{{account.id}}
             <ul class="balance">
+                <li>
+                    <span class="balance-currency">币种</span>
+                    <span class="balance-num">可用</span>
+                    <span class="balance-num">冻结</span>
+                </li>
                 <li v-for="(i,key) in balance" :key="key">
-                    <span>币种:{{key}}</span>
-                    <span>可用:{{i.trade}}</span>
-                    <span>冻结:{{i.frozen}}</span>
+                    <span class="balance-currency">{{key}}</span>
+                    <span class="balance-num">{{i.trade}}</span>
+                    <span class="balance-num">{{i.frozen}}</span>
                 </li>
                 <li v-if="isEmpty">穷光蛋!!!</li>
             </ul>
@@ -22,6 +27,7 @@
 <script>
     import { ipcRenderer } from 'electron';
     import huobiHttp from '@/services/http/huobi';
+    import accountService from '@/services/account-service';
 
     export default {
         data() {
@@ -70,18 +76,10 @@
             huobiHttp.accountBalance({
             }).then((res)=>{
                 if(res.status=='ok'){
-                    const list=res.data.list,
-                        len=list.length;
-                    let balance={};
-                    for(let i=0,item;i<len;i++){
-                        item=list[i];
-                        if(item.balance>0){
-                            typeof balance[item.currency]=="undefined"?balance[item.currency]={}:'';
-                            balance[item.currency][item.type]=item.balance;
-                        }
-                    }
-                    this.balance=balance;
-
+                    accountService.removeEmptyData('huobi',res.data.list).then(balance=>{
+                        this.balance=balance;
+                        window.balance=balance;
+                    });
                 }
 
             }).catch((error)=>{
@@ -134,9 +132,21 @@
         position: relative;top: -1px;
         display: none;
         padding: 0 5px;
-        width: 500px;
-        background: #ccc;
-
+        color: #C7CCE6;;
+        background: #1B1E2E;
+        >li{
+        border-bottom:1px solid #1F2943;
+        }
+        span{
+            display: inline-block;
+            text-align: center;
+        }
+    }
+    .balance-currency{
+        width: 30px;
+    }
+    .balance-num{
+        width: 188px;
     }
     .toolbar {
         height: 30px;
