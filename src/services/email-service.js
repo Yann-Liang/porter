@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer'),
-    config = require('@/config/key-config.json'),
+    config = require('@/config/key-config.json')
+
+
     ;
 class EmailService {
     constructor() {

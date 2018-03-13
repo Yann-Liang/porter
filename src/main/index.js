@@ -12,8 +12,8 @@ if (process.env.NODE_ENV !== 'development') {
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭
 let mainWindow, tray = null, winURL = '',
-	iconPath = path.join(__dirname, 'static/icon/bird.png'),
-	iconPath1 = path.join(__dirname, 'static/icon/white-bird.png'),
+	iconPath = '',
+	iconPath1 = '',
 	timer = null;
 
 if (process.env.NODE_ENV === 'development') {

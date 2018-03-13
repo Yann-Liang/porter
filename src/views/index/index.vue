@@ -1,6 +1,6 @@
 <template>
     <div id="wrapper" class="clearfix">
-        <!-- <com-header></com-header> -->
+        <com-header></com-header>
         <form class="from fl" ref="form" :model="form" label-width="80px" onSubmit="return fasle;" >
             <label>高于值:
                 <input type="number" v-model.number="form.height" />
@@ -27,6 +27,7 @@
                 <button type="button" @click="unwatchKey(key)">停止监控</button>
             </ul>
         </div>
+
         <main>
             <ul class="list" v-for="(item,index) in kLineData" :key="index">
                 <li class="list-item"><b>交易对:</b>{{index}}</li>
@@ -41,7 +42,7 @@
 </template>
 
 <script>
-    //import comHeader from '@/components/header/';
+    import comHeader from '@/components/header/';
     import huobiWs from '@/services/ws/huobi';
 //    import hadaxWs from '@/services/ws/hadax';
     import huobiHttp from '@/services/http/huobi';
@@ -151,18 +152,6 @@
         },
         //生命周期函数
         created() {
-            huobiHttp.getAccount({}).then((res)=>{
-                console.log('getAccount',res)
-            }).catch((error)=>{
-                console.warn('getAccount error',error)
-            });
-
-            huobiHttp.accountBalance({
-            }).then((res)=>{
-                console.log('accountBalance',res)
-            }).catch((error)=>{
-                console.warn('accountBalance error',error)
-            });
 
             huobiHttp.querySymbols({
             }).then((res)=>{
@@ -219,7 +208,7 @@
         },
         //组件
         components: {
-            //comHeader,
+            comHeader,
         },
         //过滤器
         filters: {
