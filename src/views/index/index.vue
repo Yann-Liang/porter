@@ -37,6 +37,7 @@
             </ul>
         </main>
         <button type="button" @click="sendEmail">发送邮件</button>
+        <button type="button" @click="sendAccountBalance">发送账户财务</button>
         <audio id="audio" class="audio" preload="auto" loop="loop" :src="audioSrc"></audio>
     </div>
 </template>
@@ -49,6 +50,7 @@
     import hadaxHttp from '@/services/http/hadax';
     import {ipcRenderer} from 'electron';
     import EmailService from '@/services/email-service';
+    import accountService from '@/services/account-service';
 
     const email=new EmailService();
 
@@ -140,8 +142,13 @@
                 this.watchList[key].watcher&&this.watchList[key].watcher();
             },
             sendEmail(){
-                //email.send(`test`, `test html`);
-                email.sendAccountBalance('huobi',balance);
+                email.send(`test`, `test html`);
+            },
+            sendAccountBalance(){
+                accountService.getAccountBalanceContent('huobi').then(res=>{
+                    email.send(res.subject, res.html);
+                })
+
             }
         },
         //生命周期函数

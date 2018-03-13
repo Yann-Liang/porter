@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer'),
-    config = require('@/config/key-config.json'),
-    moment = require('moment')
+    config = require('@/config/key-config.json')
+    //moment = require('moment')
 
     ;
 
@@ -43,27 +43,43 @@ class EmailService {
 
     }
 
-    sendAccountBalance(exchangeName, list) {
-        const subject = `${moment().format("YYYY年MM月DD日HH:mm")}:${exchangeName}的账户余额`;
-        let html = ['<ul>'];
-        for (const key in list) {
-            const trade = list[key].trade ? Number(list[key].trade) : 0,
-                frozen = list[key].frozen ? Number(list[key].frozen) : 0,
-                total = trade + frozen;
+    // sendAccountBalance(exchangeName, list) {
+    //     const subject = `${moment().format("YYYY年MM月DD日HH:mm")} ${exchangeName}的账户余额`;
+    //     let html = [`<table border="1" style="text-align:center;border-collapse:collapse;">
+    //                     <caption>${subject}</caption>
+    //                     <thead>
+    //                         <tr>
+    //                             <th>币种</th>
+    //                             <th>可用</th>
+    //                             <th>冻结</th>
+    //                             <th>总计</th>
+    //                         </tr>
+    //                     </thead>
+    //                     <tbody>`
+    //     ];
+    //     for (const key in list) {
+    //         const trade = list[key].trade ? Number(list[key].trade) : 0,
+    //             frozen = list[key].frozen ? Number(list[key].frozen) : 0,
+    //             total = trade + frozen;
 
-            html.push(`<li>币种:${key} 可用:${trade} 冻结：${frozen} 总计:${total}</li>`);
-        }
-        html.push('</ul>')
-        // console.log(subject, html.join(''));
-        email.sendMail(getOptions(subject,html.join('')), function (err, msg) {
-            if (err) {
-                console.warn(`send email err`, err);
-            }
-            else {
-                console.log(`send email msg`, msg);
-            }
-        });
-    }
+    //         html.push(`<tr>
+    //                     <td>${key}</td>
+    //                     <td>${trade}</td>
+    //                     <td>${frozen}</td>
+    //                     <td>${total}</td>
+    //                 </tr>`);
+    //     }
+    //     html.push('</tbody></table>')
+    //     console.log(subject, html.join(''));
+    //     email.sendMail(getOptions(subject,html.join('')), function (err, msg) {
+    //         if (err) {
+    //             console.warn(`send email err`, err);
+    //         }
+    //         else {
+    //             console.log(`send email msg`, msg);
+    //         }
+    //     });
+    // }
 
 };
 

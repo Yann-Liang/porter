@@ -16,6 +16,7 @@
             </ul>
 
         </span>
+
         <div class="toolbar">
 			<!-- <i class="toolbar-min" @click="min">-</i>
 			<i class="toolbar-max" @click="max">O</i> -->
