@@ -14,7 +14,9 @@ if (typeof window.kLine === "undefined") {
     btmeth: {},
     eosusdt: {},
     ethusdt: {},
-    btcusdt:{},
+    btcusdt: {},
+    bchusdt: {},
+
   };
 };
 

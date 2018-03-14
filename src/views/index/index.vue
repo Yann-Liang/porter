@@ -66,7 +66,7 @@
                     low:0,
                     key:'btcusdt',
                 },
-                options:['ethusdt','btmeth','etcusdt','eosusdt','btcusdt',/*'xrpbtc', 'bchusdt',*/],
+                options:['ethusdt','btmeth','etcusdt','eosusdt','btcusdt','bchusdt',/*'xrpbtc', */],
                 watchList:{
 
                 },
