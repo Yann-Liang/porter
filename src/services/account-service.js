@@ -44,7 +44,9 @@ class AccountService {
         }
 
         return new Promise((resolve, reject) => {
-            const subject = `${moment().format("YYYY年MM月DD日HH:mm")} ${exchangeName}的账户余额`;
+
+            const time = moment().format("YYYY年MM月DD日HH:mm"),
+                subject = `[财务报告]${time} ${exchangeName}账户余额`;
             let html = [`<table border="1" style="text-align:center;border-collapse:collapse;">
                             <caption>${subject}</caption>
                             <thead>
@@ -80,6 +82,7 @@ class AccountService {
 
             balance[exchangeName] = list;
             localStorage.balance = JSON.stringify(balance);
+            localStorage[`${exchangeName}RecordedTime`] = time;
             html.push('</tbody></table>');
             html = html.join('');
             resolve({ subject, html });
