@@ -66,7 +66,7 @@
                     low:0,
                     key:'btcusdt',
                 },
-                options:['ethusdt','btmeth','etcusdt','eosusdt','btcusdt','bchusdt',/*'xrpbtc', */],
+                options:['ethusdt','btmeth','etcusdt','eosusdt','btcusdt','bchusdt','mtxeth',/*'xrpbtc', */],
                 watchList:{
 
                 },
@@ -254,7 +254,7 @@
     }
 
     main {
-        padding: 60px 80px;
+        padding: 60px 20px;
         display: flex;
         justify-content: space-between;
     }
