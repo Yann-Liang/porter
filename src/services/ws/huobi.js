@@ -1,7 +1,6 @@
 const WebSocket = require('ws');
 const pako = require('pako');
 
-//import store from '@/vuex/store';
 import API from '@/config/API-config';
 
 let huobiWs = null;
@@ -27,11 +26,11 @@ const handle = data => {
             break;
 
         default:
-            //console.log('default',symbol, JSON.stringify(data,null,2))
+        //console.log('default',symbol, JSON.stringify(data,null,2))
     }
 },dealTrade= (type,tick) => {
     //console.log('dealTrade',type,tick)
-}
+    }
 
 function subscribe(ws) {
     const symbols = ['btmeth','ethusdt','etcusdt','eosusdt','btcusdt', 'bchusdt','mtxeth',/*'xrpbtc',*/];
@@ -54,43 +53,48 @@ function subscribe(ws) {
             "id": "id1"
         }));
 
-        ws.send(JSON.stringify({
-            "sub":`market.${symbol}.detail`,
-            "id": "id1"
-        }));
-    }
-}
-
-function init() {
-    huobiWs = new WebSocket(API.HUO_BI.ws);
-    huobiWs.on('open', () => {
-        console.log(new Date(),'ws open');
-        subscribe(huobiWs);
-    });
-    huobiWs.on('message', (data) => {
-        let text = pako.inflate(data, {
-            to: 'string'
-        });
-        let msg = JSON.parse(text);
-        if (msg.ping) {
-            huobiWs.send(JSON.stringify({
-                pong: msg.ping
+            //
+            ws.send(JSON.stringify({
+                "sub": `market.${symbol}.trade.detail`,
+                "id": "id1"
             }));
-        } else if (msg.tick) {
-            handle(msg);
-        } else {
-            console.log(text);
+
+            ws.send(JSON.stringify({
+                "sub": `market.${symbol}.detail`,
+                "id": "id1"
+            }));
         }
-    });
-    huobiWs.on('close', () => {
-        console.log(new Date(),'ws close');
-        init();
-    });
-    huobiWs.on('error', err => {
-        console.log(new Date(),'error', err);
-        init();
-    });
-}
+    },
+    init = () => {
+        huobiWs = new WebSocket(API.HUO_BI.ws);
+        huobiWs.on('open', () => {
+            console.log(new Date(), 'ws open');
+            subscribe(huobiWs);
+        });
+        huobiWs.on('message', (data) => {
+            let text = pako.inflate(data, {
+                to: 'string'
+            });
+            let msg = JSON.parse(text);
+            if (msg.ping) {
+                huobiWs.send(JSON.stringify({
+                    pong: msg.ping
+                }));
+            } else if (msg.tick) {
+                handle(msg);
+            } else {
+                console.log(text);
+            }
+        });
+        huobiWs.on('close', () => {
+            console.log(new Date(), 'ws close');
+            init();
+        });
+        huobiWs.on('error', err => {
+            console.log(new Date(), 'error', err);
+            init();
+        });
+    }
 
 init();
 
