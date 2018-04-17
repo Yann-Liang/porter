@@ -28,12 +28,12 @@ const handle = data => {
         default:
         //console.log('default',symbol, JSON.stringify(data,null,2))
     }
-},dealTrade= (type,tick) => {
+}, dealTrade = (type, tick) => {
     //console.log('dealTrade',type,tick)
-    }
+}
 
-function subscribe(ws) {
-    const symbols = ['btmeth','ethusdt','etcusdt','eosusdt','btcusdt', 'bchusdt','mtxeth',/*'xrpbtc',*/];
+const subscribe = ws => {
+    const symbols = ['btmeth', 'ethusdt', 'etcusdt', 'eosusdt', 'btcusdt', 'bchusdt', 'mtxeth',/*'xrpbtc',*/];
     // 谨慎选择合并的深度，ws每次推送全量的深度数据，若未能及时处理容易引起消息堆积并且引发行情延时
     for (let symbol of symbols) {
         // 订阅深度
@@ -49,22 +49,22 @@ function subscribe(ws) {
 
         //
         ws.send(JSON.stringify({
-            "sub":`market.${symbol}.trade.detail`,
+            "sub": `market.${symbol}.trade.detail`,
             "id": "id1"
         }));
 
-            //
-            ws.send(JSON.stringify({
-                "sub": `market.${symbol}.trade.detail`,
-                "id": "id1"
-            }));
+        //
+        ws.send(JSON.stringify({
+            "sub": `market.${symbol}.trade.detail`,
+            "id": "id1"
+        }));
 
-            ws.send(JSON.stringify({
-                "sub": `market.${symbol}.detail`,
-                "id": "id1"
-            }));
-        }
-    },
+        ws.send(JSON.stringify({
+            "sub": `market.${symbol}.detail`,
+            "id": "id1"
+        }));
+    }
+},
     init = () => {
         huobiWs = new WebSocket(API.HUO_BI.ws);
         huobiWs.on('open', () => {
