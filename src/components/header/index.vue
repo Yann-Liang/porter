@@ -120,9 +120,11 @@
         line-height:28px;
         border: 1px solid #666;
         border-radius: 5px;
+        -webkit-app-region: drag;
     }
 
     .account {
+        -webkit-app-region: no-drag;
         cursor: pointer;
         &:hover .balance{
             display: block;
@@ -151,7 +153,7 @@
     }
     .toolbar {
         height: 30px;
-		//-webkit-app-region: no-drag;
+		-webkit-app-region: no-drag;
 		i {
             font-style: normal;
 			cursor: pointer;
