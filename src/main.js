@@ -1,7 +1,7 @@
 //js
 import Vue from 'vue'
 import router from './router'
-//import store from './vuex/store'
+import store from './vuex/store'
 
 //css
 import '../static/css/reset.css'
@@ -29,5 +29,5 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  //store,
+  store,
 });

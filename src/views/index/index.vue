@@ -59,7 +59,7 @@
         //实例的数据对象
         data() {
             return {
-                audioSrc: `${__static}/music/1.mp3`,
+                audioSrc: `${__static}/music/时机到了.mp3`,
                 isPlaying:false,
                 form: {
                     height:700,
@@ -225,7 +225,6 @@
 <style lang="less" scoped>
     #wrapper {
         display: block;
-        background: radial-gradient( ellipse at top left, rgba(255, 255, 255, 1) 40%, rgba(229, 229, 229, .9) 100%);
         height: 100vh;
         width: 100vw;
     }

@@ -29,12 +29,12 @@ if (process.env.NODE_ENV === 'development') {
 function createWindow() {
 	// 创建浏览器窗口。
 	mainWindow = new BrowserWindow({
-		width: 1200,
-		height: 740,
-		minWidth: 1250,
-		minHeight: 600,
+		width: 1000,
+		height: 550,
+		minWidth: 1000,
+		minHeight: 550,
 		useContentSize: true,
-		frame: true, //是否创建有边框窗口
+		frame: false, //是否创建有边框窗口
 		resizable: false, //改变窗口size
 		webPreferences: {
 			webSecurity: false
