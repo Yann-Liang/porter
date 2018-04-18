@@ -6,4 +6,4 @@ npm-debug.log.*
 thumbs.db
 !.gitkeep
 .project
-/src/config/key-config.json
+/src/config/default.json

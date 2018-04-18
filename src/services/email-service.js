@@ -1,5 +1,5 @@
-const nodemailer = require('nodemailer'),
-    config = require('@/config/key-config.json')
+﻿const nodemailer = require('nodemailer'),
+    config = require('@/config/default.json')
     //moment = require('moment')
 
     ;

@@ -45,12 +45,10 @@
 <script>
     import comHeader from '@/components/header/';
     import huobiWs from '@/services/ws/huobi';
-//    import hadaxWs from '@/services/ws/hadax';
-    import huobiHttp from '@/services/http/huobi';
-    import hadaxHttp from '@/services/http/hadax';
     import {ipcRenderer} from 'electron';
     import EmailService from '@/services/email-service';
     import accountService from '@/services/account-service';
+    const huobiHttp =require('@/services/http/huobi') ;
 
     const email=new EmailService();
 
@@ -180,14 +178,6 @@
                 console.warn('tradeHistory error',error)
             });
 
-
-            // hadaxHttp.getAaccount({
-
-            // }).then((res)=>{
-            //     console.log('getAaccount',res)
-            // }).catch((error)=>{
-            //     console.warn('getAaccount error',error)
-            // });
 
         },
         beforeMount() {

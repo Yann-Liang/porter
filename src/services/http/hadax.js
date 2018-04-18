@@ -1,9 +1,9 @@
 import Http from 'axios'
-import API from '@/config/API-config'
 
-const config = require('@/config/key-config.json'),
+const config = require('@/config/default.json'),
     CryptoJS = require('crypto-js'),
     moment = require('moment'),
+    API = require('../../config/API-config'),
     HmacSHA256 = require('crypto-js/hmac-sha256')
 
     ;
