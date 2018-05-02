@@ -27,8 +27,10 @@
 
 <script>
     import { ipcRenderer } from 'electron';
-    import huobiHttp from '@/services/http/huobi';
-    import accountService from '@/services/account-service';
+
+    const
+        huobiHttp =require('@/services/http/huobi'),
+        accountService =require( '@/services/account-service');
 
     export default {
         data() {
