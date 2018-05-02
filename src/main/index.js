@@ -29,10 +29,10 @@ if (process.env.NODE_ENV === 'development') {
 function createWindow() {
 	// 创建浏览器窗口。
 	mainWindow = new BrowserWindow({
-		width: 1200,
-		height: 600,
-		minWidth: 1250,
-		minHeight: 600,
+		width: 900,
+		height: 350,
+		minWidth: 900,
+		minHeight: 350,
 		useContentSize: true,
 		frame: false, //是否创建有边框窗口
 		resizable: false, //改变窗口size
@@ -40,6 +40,7 @@ function createWindow() {
 			webSecurity: false
 		},
 		show: false,//优雅地显示窗口
+		transparent: true,
 	});
 
 	// 加载应用的 index.html

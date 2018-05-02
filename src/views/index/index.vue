@@ -45,12 +45,12 @@
 <script>
     import comHeader from '@/components/header/';
     import huobiWs from '@/services/ws/huobi';
-//    import hadaxWs from '@/services/ws/hadax';
-    import huobiHttp from '@/services/http/huobi';
-    import hadaxHttp from '@/services/http/hadax';
     import {ipcRenderer} from 'electron';
     import EmailService from '@/services/email-service';
-    import accountService from '@/services/account-service';
+
+    const
+        huobiHttp =require('@/services/http/huobi'),
+        accountService =require( '@/services/account-service');
 
     const email=new EmailService();
 
@@ -59,7 +59,7 @@
         //实例的数据对象
         data() {
             return {
-                audioSrc: `${__static}/music/1.mp3`,
+                audioSrc: `${__static}/music/时机到了.mp3`,
                 isPlaying:false,
                 form: {
                     height:700,
@@ -181,14 +181,6 @@
             });
 
 
-            // hadaxHttp.getAaccount({
-
-            // }).then((res)=>{
-            //     console.log('getAaccount',res)
-            // }).catch((error)=>{
-            //     console.warn('getAaccount error',error)
-            // });
-
         },
         beforeMount() {
 
@@ -225,9 +217,12 @@
 <style lang="less" scoped>
     #wrapper {
         display: block;
-        background: radial-gradient( ellipse at top left, rgba(255, 255, 255, 1) 40%, rgba(229, 229, 229, .9) 100%);
         height: 100vh;
         width: 100vw;
+        box-sizing: border-box;
+        border: 1px solid #fff;
+        color: #fff;
+        border-radius: 5px;
     }
 
     .from{
@@ -254,7 +249,7 @@
     }
 
     main {
-        padding: 60px 20px;
+        padding: 10px;
         display: flex;
         justify-content: space-between;
     }

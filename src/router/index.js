@@ -11,11 +11,6 @@ Vue.use(Router)
 export default new Router({
     routes: [
         Index, //首页模块
-        /*{
-            path: '/',
-            name: 'landing-page',
-            component: require('@/components/LandingPage')
-        },*/
         Redirect, //路由重定向(访问不存在的页面时，重定向到这个页面) 放最后面
     ]
 })
