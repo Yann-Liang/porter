@@ -1,6 +1,6 @@
 const request = require('request'),
-    API = require('../../config/API-config'),
-    config = require('../../config/default.json'),
+    API = require('../../../config/API-config'),
+    config = require('../../../config/default.json'),
     CryptoJS = require('crypto-js'),
     moment = require('moment'),
     HmacSHA256 = require('crypto-js/hmac-sha256')
