@@ -30,7 +30,10 @@
 
     const
         huobiHttp =require('@/services/http/huobi'),
-        accountService =require( '@/services/account-service');
+        AccountService =require( '@/services/account-service');
+
+    const
+        huobiAccountService = new AccountService('huobipro');
 
     export default {
         data() {
@@ -79,7 +82,7 @@
             huobiHttp.accountBalance({
             }).then((res)=>{
                 if(res.status=='ok'){
-                    accountService.removeEmptyData('huobi',res.data.list).then(balance=>{
+                    huobiAccountService.removeEmptyData('huobi',res.data.list).then(balance=>{
                         this.balance=balance;
                         window.balance=balance;
                     });

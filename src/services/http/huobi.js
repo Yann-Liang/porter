@@ -6,6 +6,15 @@ const request = require('request'),
     HmacSHA256 = require('crypto-js/hmac-sha256')
 
     ;
+/**
+ *
+ *
+ * @param {any} method
+ * @param {any} baseurl
+ * @param {any} path
+ * @param {any} data
+ * @returns
+ */
 const sign_sha = (method, baseurl, path, data) => {
     var pars = [];
     for (let item in data) {
@@ -14,7 +23,7 @@ const sign_sha = (method, baseurl, path, data) => {
     var p = pars.sort().join("&");
     var meta = [method, baseurl, path, p].join('\n');
     //console.log('meta',meta);
-    var hash = HmacSHA256(meta, config.huobi.secretkey);
+    var hash = HmacSHA256(meta, config.huobi.secretKey);
     var Signature = encodeURIComponent(CryptoJS.enc.Base64.stringify(hash));
     // console.log(`Signature: ${Signature}`);
     p += `&Signature=${Signature}`;
@@ -23,7 +32,7 @@ const sign_sha = (method, baseurl, path, data) => {
 },
     get_body = () => {
         return {
-            AccessKeyId: config.huobi.access_key,
+            AccessKeyId: config.huobi.accessKey,
             SignatureMethod: "HmacSHA256",
             SignatureVersion: 2,
             Timestamp: moment.utc().format('YYYY-MM-DDTHH:mm:ss'),
