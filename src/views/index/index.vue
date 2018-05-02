@@ -47,8 +47,10 @@
     import huobiWs from '@/services/ws/huobi';
     import {ipcRenderer} from 'electron';
     import EmailService from '@/services/email-service';
-    import accountService from '@/services/account-service';
-    const huobiHttp =require('@/services/http/huobi') ;
+
+    const
+        huobiHttp =require('@/services/http/huobi'),
+        accountService =require( '@/services/account-service');
 
     const email=new EmailService();
 
