@@ -20,6 +20,7 @@
         <div class="toolbar">
 			<!-- <i class="toolbar-min" @click="min">-</i>
 			<i class="toolbar-max" @click="max">O</i> -->
+            <i @click="set">设置</i>
 			<i class="toolbar-close" @click="close">隐藏</i>
 		</div>
     </div>
@@ -63,7 +64,10 @@
 			// },
 			// max() {
 			// 	ipcRenderer.send('max-window');
-			// },
+            // },
+            set(){
+
+            },
 			close() {
 				ipcRenderer.send('hide-window');
 			},
@@ -123,8 +127,9 @@
         padding: 0 5px;
         height: 28px;
         line-height:28px;
-        border: 1px solid #666;
+        border-bottom: 1px solid #0B8AEE;
         border-radius: 5px;
+        -webkit-app-region: drag;
     }
 
     .account {
@@ -132,14 +137,16 @@
         &:hover .balance{
             display: block;
         }
+        -webkit-app-region:no-drag;
     }
 
     .balance{
         position: relative;top: -1px;
         display: none;
         padding: 0 5px;
-        color: #C7CCE6;;
+        color: #C7CCE6;
         background: #1B1E2E;
+        -webkit-app-region:no-drag;
         >li{
         border-bottom:1px solid #1F2943;
         }
@@ -156,7 +163,7 @@
     }
     .toolbar {
         height: 30px;
-		//-webkit-app-region: no-drag;
+		-webkit-app-region: no-drag;
 		i {
             font-style: normal;
 			cursor: pointer;

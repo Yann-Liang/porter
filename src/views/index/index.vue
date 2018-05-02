@@ -219,6 +219,10 @@
         display: block;
         height: 100vh;
         width: 100vw;
+        box-sizing: border-box;
+        border: 1px solid #fff;
+        color: #fff;
+        border-radius: 5px;
     }
 
     .from{
@@ -245,7 +249,7 @@
     }
 
     main {
-        padding: 60px 20px;
+        padding: 10px;
         display: flex;
         justify-content: space-between;
     }
