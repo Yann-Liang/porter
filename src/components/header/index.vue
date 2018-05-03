@@ -17,12 +17,22 @@
 
         </span>
 
-        <div class="toolbar">
+        <ul class="toolbar">
 			<!-- <i class="toolbar-min" @click="min">-</i>
 			<i class="toolbar-max" @click="max">O</i> -->
-            <i @click="set">设置</i>
-			<i class="toolbar-close" @click="close">隐藏</i>
-		</div>
+            <li class="toolbar-set">设置
+                <ul class="set-list">
+                    <li @click="changeAccount">修改账号</li>
+                    <li>
+
+                    </li>
+                </ul>
+            </li>
+
+			<li class="toolbar-close" @click="close">隐藏</li>
+		</ul>
+
+
     </div>
 </template>
 
@@ -65,12 +75,13 @@
 			// max() {
 			// 	ipcRenderer.send('max-window');
             // },
-            set(){
+            changeAccount(){
 
             },
 			close() {
 				ipcRenderer.send('hide-window');
-			},
+            },
+
         },
         //生命周期函数
         created() {
@@ -142,7 +153,8 @@
     }
 
     .balance{
-        position: relative;top: -1px;
+        position: relative;
+        top: -1px;
         display: none;
         padding: 0 5px;
         color: #C7CCE6;
@@ -165,8 +177,8 @@
     .toolbar {
         height: 30px;
 		-webkit-app-region: no-drag;
-		i {
-            font-style: normal;
+		li {
+            position: relative;
 			cursor: pointer;
 			display: inline-block;
 			margin: 0 5px;
@@ -175,5 +187,19 @@
                 margin-right: 0px;
             }
 		}
-	}
+    }
+    .toolbar-set {
+        &:hover .set-list{
+            display: block;
+        }
+        -webkit-app-region:no-drag;
+    }
+    .set-list{
+        position: absolute;
+        top: 30px;
+        display: none;
+        padding: 0 5px;
+        width: 50px;
+        background: #1B1E2E;
+    }
 </style>
