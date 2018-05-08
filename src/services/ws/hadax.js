@@ -1,6 +1,8 @@
-const WebSocket = require('ws');
-const pako = require('pako');
-import API from '@/config/API-config';
+const
+    WebSocket = require('ws'),
+    pako = require('pako'),
+    API = require('../../config/api/huobipro')
+    ;
 
 let ws = null;
 
@@ -60,8 +62,7 @@ function subscribe(ws) {
 }
 
 function init() {
-    const wsUrl = API.HADAX.ws;
-    ws = new WebSocket(wsUrl);
+    ws = new WebSocket(API.URL.ws);
     ws.on('open', () => {
         console.log(new Date(),`${wsUrl} ws open`);
         subscribe(ws);

@@ -25,7 +25,7 @@ const
     }
     ;
 ;
-module.exports = class Huobipro {
+export default class Huobipro {
     constructor(options) {
 
         this.uid = '';

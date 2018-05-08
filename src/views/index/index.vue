@@ -44,15 +44,15 @@
 
 <script>
     import comHeader from '@/components/header/';
-    import huobiWs from '@/services/ws/huobi';
+    //import huobiWs from '@/services/ws/huobi';
     import {ipcRenderer} from 'electron';
     import EmailService from '@/services/email-service';
+    import AccountService from  '@/services/account-service';
+    import Huobipro from '@/exchange/huobipro';
 
     const
-        huobiHttp =require('@/services/http/huobi'),
-        accountService =require( '@/services/account-service');
-
-    const email=new EmailService();
+        huobipro=new Huobipro(),
+        email=new EmailService();
 
     export default {
         name: 'landing-page',
@@ -145,40 +145,44 @@
                 email.send(`test`, `test html`);
             },
             sendAccountBalance(){
-                accountService.getAccountBalanceContent('huobi').then(res=>{
-                    email.send(res.subject, res.html);
-                })
+                // accountService.getAccountBalanceContent('huobi').then(res=>{
+                //     email.send(res.subject, res.html);
+                // })
 
             }
         },
         //生命周期函数
         created() {
 
-            huobiHttp.querySymbols({
+            huobipro.querySymbols({
             }).then((res)=>{
-                console.log('querySymbols',res)
+                let coinObj={}
+                for (const item of res) {
+                    typeof coinObj[item['quote-currency']]==='undefined'?coinObj[item['quote-currency']]=[]:coinObj[item['quote-currency']].push(item)
+                }
+                console.log(coinObj)
             }).catch((error)=>{
                 console.warn('accountBalance error',error)
             });
 
-            huobiHttp.klineHistory({
-                symbol:'btcusdt',
-                period:'5min',//1min, 5min, 15min, 30min, 60min, 1day, 1mon, 1week, 1year
-                size:150,//[1,2000] 默认150
-            }).then((res)=>{
-                console.log('klineHistory',res)
-            }).catch((error)=>{
-                console.warn('klineHistory error',error)
-            });
+            // huobipro.klineHistory({
+            //     symbol:'btcusdt',
+            //     period:'5min',//1min, 5min, 15min, 30min, 60min, 1day, 1mon, 1week, 1year
+            //     size:150,//[1,2000] 默认150
+            // }).then((res)=>{
+            //     console.log('klineHistory',res)
+            // }).catch((error)=>{
+            //     console.warn('klineHistory error',error)
+            // });
 
-            huobiHttp.tradeHistory({
-                symbol:'btcusdt',
-                size:150,//[1,2000] 默认1
-            }).then((res)=>{
-                console.log('tradeHistory',res)
-            }).catch((error)=>{
-                console.warn('tradeHistory error',error)
-            });
+            // huobipro.tradeHistory({
+            //     symbol:'btcusdt',
+            //     size:150,//[1,2000] 默认1
+            // }).then((res)=>{
+            //     console.log('tradeHistory',res)
+            // }).catch((error)=>{
+            //     console.warn('tradeHistory error',error)
+            // });
 
 
         },

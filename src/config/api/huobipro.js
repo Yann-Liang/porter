@@ -1,7 +1,7 @@
 module.exports = {
-    BASE: `https://api.huobipro.com`,
+    BASE: `https://api.huobi.br.com`,
     URL: {
-        ws: `wss://api.huobipro.com/ws`,
+        ws: `wss://api.huobi.br.com/ws`,
         klineHistory: `/market/history/kline`,//获取K线数据
         detail: `/market/detail/merged`,//获取聚合行情(Ticker)
         depthMarket: `/market/depth`,//获取 Market Depth 数据

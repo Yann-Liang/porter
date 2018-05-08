@@ -1,6 +1,16 @@
 <template>
     <div class="header">
-        <span class="account">账户:{{account.id}}
+        <ul>
+            <li class="toolbar-set">设置
+                <ul class="set-list">
+                    <li @click="changeAccount">修改账号</li>
+                    <li>
+
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- <span class="account">账户:{{account.id}}
             <ul class="balance">
                 <li>
                     <span class="balance-currency">币种</span>
@@ -15,19 +25,11 @@
                 <li v-if="isEmpty">穷光蛋!!!</li>
             </ul>
 
-        </span>
+        </span> -->
 
         <ul class="toolbar">
 			<!-- <i class="toolbar-min" @click="min">-</i>
 			<i class="toolbar-max" @click="max">O</i> -->
-            <li class="toolbar-set">设置
-                <ul class="set-list">
-                    <li @click="changeAccount">修改账号</li>
-                    <li>
-
-                    </li>
-                </ul>
-            </li>
 
 			<li class="toolbar-close" @click="close">隐藏</li>
 		</ul>
@@ -39,12 +41,12 @@
 <script>
     import { ipcRenderer } from 'electron';
 
-    const
-        huobiHttp =require('@/services/http/huobi'),
-        AccountService =require( '@/services/account-service');
+    // const
 
-    const
-        huobiAccountService = new AccountService('huobipro');
+    //     AccountService =require( '@/services/account-service');
+
+    // const
+    //     huobiAccountService = new AccountService('huobipro');
 
     export default {
         data() {
@@ -85,27 +87,7 @@
         },
         //生命周期函数
         created() {
-            huobiHttp.getAccount({}).then((res)=>{
-                console.log('getAccount',res);
-                if(res.status=='ok'){
-                    this.account=res.data[0];
-                }
-            }).catch((error)=>{
-                console.warn('getAccount error',error)
-            });
 
-            huobiHttp.accountBalance({
-            }).then((res)=>{
-                if(res.status=='ok'){
-                    huobiAccountService.removeEmptyData('huobi',res.data.list).then(balance=>{
-                        this.balance=balance;
-                        window.balance=balance;
-                    });
-                }
-
-            }).catch((error)=>{
-                console.warn('accountBalance error',error)
-            });
         },
         beforeMount() {
 
@@ -196,7 +178,7 @@
     }
     .set-list{
         position: absolute;
-        top: 28px;
+        top: 20px;
         left: -2px;
         display: none;
         padding: 0 5px;

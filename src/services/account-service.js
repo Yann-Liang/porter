@@ -160,4 +160,4 @@ class AccountService {
 };
 
 //导出一个对象
-module.exports = AccountService;
+export default  AccountService;

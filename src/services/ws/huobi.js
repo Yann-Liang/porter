@@ -1,7 +1,8 @@
-const WebSocket = require('ws');
-const pako = require('pako');
-
-import API from '@/config/API-config';
+const
+    WebSocket = require('ws'),
+    pako = require('pako'),
+    API = require('../../config/api/huobipro')
+    ;
 
 let huobiWs = null;
 
@@ -66,7 +67,7 @@ const subscribe = ws => {
     }
 },
     init = () => {
-        huobiWs = new WebSocket(API.HUO_BI.ws);
+        huobiWs = new WebSocket(API.URL.ws);
         huobiWs.on('open', () => {
             console.log(new Date(), 'ws open');
             subscribe(huobiWs);
