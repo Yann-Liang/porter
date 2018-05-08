@@ -1,5 +1,5 @@
 const fetch = require('node-fetch'),
-    API = require('../../config/api/huobipro'),
+    API = require('../config/api/huobipro'),
     CryptoJS = require('crypto-js'),
     moment = require('moment'),
     { HmacSHA256, enc } = require('crypto-js')
@@ -195,6 +195,106 @@ module.exports = class Huobipro {
             return null;
         }
     }
+
+    async getOrder(orderId) {
+        if (!this.accountId) {
+            throw `accountId is empty!`;
+        }
+        const url = `${API.URL.accounts}/${this.accountId}/balance`;
+        let result = null;
+        try {
+            result = await this.get(url);
+        } catch (error) {
+            console.error('balances Error:', error);
+            return null;
+        }
+        console.log(result)
+        if (result.status === 'ok') {
+            return result.data.list;
+        } else {
+            console.error(`Error Msg: ${result['err-msg']}, URL: ${url}`);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @description 查询当前委托、历史委托
+     * @param {any} params
+     *  buy-market：市价买,
+     *  sell-market：市价卖,
+     *  buy-limit：限价买,
+     *  sell-limit：限价卖,
+     *  buy-ioc：IOC买单,
+     *  sell-ioc：IOC卖单
+     * @returns
+     */
+    async getOrders(params) {
+        const url = API.URL.orders;
+        let result = null;
+        try {
+            result = await this.get(url,params);
+        } catch (error) {
+            console.error('getOrders Error:', error);
+            return null;
+        }
+        console.log(result)
+        if (result.status === 'ok') {
+            return result.data;
+        } else {
+            console.error(`Error Msg: ${result['err-msg']}, URL: ${url}`);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @description 查询某个订单的成交明细
+     * @param {object} params
+     * @returns
+     */
+    async getMatchresult(orderId) {
+        const url = `${API.URL.orders}/${orderId}/matchresults `;
+        let result = null;
+        try {
+            result = await this.get(url);
+        } catch (error) {
+            console.error('getOrders Error:', error);
+            return null;
+        }
+        console.log(result)
+        if (result.status === 'ok') {
+            return result.data;
+        } else {
+            console.error(`Error Msg: ${result['err-msg']}, URL: ${url}`);
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @description 查询当前成交、历史成交
+     * @param {object} params
+     * @returns
+     */
+    async getMatchresults(params) {
+        const url = API.URL.matchresults;
+        let result = null;
+        try {
+            result = await this.get(url,params);
+        } catch (error) {
+            console.error('getOrders Error:', error);
+            return null;
+        }
+        console.log(result)
+        if (result.status === 'ok') {
+            return result.data;
+        } else {
+            console.error(`Error Msg: ${result['err-msg']}, URL: ${url}`);
+            return null;
+        }
+    }
+
     /**
      *
      * @description 现在是 现货账户
