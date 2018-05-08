@@ -196,10 +196,11 @@
     }
     .set-list{
         position: absolute;
-        top: 30px;
+        top: 28px;
+        left: -2px;
         display: none;
         padding: 0 5px;
-        width: 50px;
+        width: 60px;
         background: #1B1E2E;
     }
 </style>

@@ -8,7 +8,7 @@ import '../static/css/reset.css'
 
 //less
 // import "./less/index.less"
-
+window.kLine={}
 
 if (!process.env.IS_WEB){
     Vue.use(require('vue-electron'));
