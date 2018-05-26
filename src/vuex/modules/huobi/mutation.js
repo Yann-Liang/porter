@@ -5,6 +5,8 @@ export const huobiMutation = {
   ['UPDATE_KLINE'](state, obj) {
     const { type, data } = obj;
     state.kline[type] = data;
-    console.log('state', state);
-},
+  },
+  ['COIN_LIST'](state, obj) {
+    state.coinList = obj;
+  },
 };

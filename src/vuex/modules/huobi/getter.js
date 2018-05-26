@@ -1,4 +1,5 @@
 
 export const huobiGetter = {
-  getKLine: (state, getters) => state.kline,
+  getKLine: state => state.kline,
+  coinList: state => state.coinList,
 };

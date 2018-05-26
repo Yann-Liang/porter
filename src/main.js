@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import router from './router'
 import store from './vuex/store'
+import Huobipro from '@/exchange/huobipro';
 
 //css
 import '../static/css/reset.css'
@@ -16,8 +17,11 @@ if (!process.env.IS_WEB){
 //Vue.config.silent = true;
 Vue.config.productionTip = false
 
+window.$huobipro = new Huobipro();
+
 new Vue({
   el: '#app',
   router,
   store,
 });
+

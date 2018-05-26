@@ -5,7 +5,8 @@ import { huobiAction } from './action'
 import { huobiGetter } from './getter'
 import { huobiMutation } from './mutation'
 export default {
-  state:{
+  state: {
+    coinList: {},
     kline: {
       dashusdt:[]
     },

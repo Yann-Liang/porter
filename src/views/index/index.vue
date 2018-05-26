@@ -44,14 +44,13 @@
 
 <script>
     import comHeader from '@/components/header/';
+    import {mapState, mapActions, mapGetters} from 'vuex';
     //import huobiWs from '@/services/ws/huobi';
     import {ipcRenderer} from 'electron';
     import EmailService from '@/services/email-service';
     import AccountService from  '@/services/account-service';
-    import Huobipro from '@/exchange/huobipro';
 
     const
-        huobipro=new Huobipro(),
         email=new EmailService();
 
     export default {
@@ -82,6 +81,7 @@
         },
         //方法
         methods: {
+            ...mapActions(['getCoinList']),
             open(link) {
                 this.$electron.shell.openExternal(link)
             },
@@ -153,17 +153,7 @@
         },
         //生命周期函数
         created() {
-
-            huobipro.querySymbols({
-            }).then((res)=>{
-                let coinObj={}
-                for (const item of res) {
-                    typeof coinObj[item['quote-currency']]==='undefined'?coinObj[item['quote-currency']]=[]:coinObj[item['quote-currency']].push(item)
-                }
-                console.log(coinObj)
-            }).catch((error)=>{
-                console.warn('accountBalance error',error)
-            });
+            this.getCoinList();
 
             // huobipro.klineHistory({
             //     symbol:'btcusdt',

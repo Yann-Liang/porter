@@ -1,15 +1,29 @@
 <template>
     <div class="header">
-        <ul>
-            <li class="toolbar-set">设置
-                <ul class="set-list">
+        <ul class="left-menu">
+            <li class="left-menu-item" @click="setFlag=!setFlag">设置
+                <ul class="left-menu-1" v-if="setFlag">
                     <li @click="changeAccount">修改账号</li>
                     <li>
 
                     </li>
                 </ul>
             </li>
+             <li class="left-menu-item" @click="coinFlag=!coinFlag">Cddd
+                <ul class="left-menu-1" v-if="coinFlag">
+                    <li v-for="(i,key) in coinList" :key="key">
+                        {{key}}
+                        <ul class="left-menu-2">
+                            <li v-for="item in i" :key="item.id" @click="selectCoins(item.coins)">
+                                {{item.coins}}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </li>
         </ul>
+
         <!-- <span class="account">账户:{{account.id}}
             <ul class="balance">
                 <li>
@@ -40,17 +54,15 @@
 
 <script>
     import { ipcRenderer } from 'electron';
-
-    // const
-
-    //     AccountService =require( '@/services/account-service');
-
+    import {mapState, mapActions, mapGetters} from 'vuex';
     // const
     //     huobiAccountService = new AccountService('huobipro');
 
     export default {
         data() {
             return {
+                setFlag:false,
+                coinFlag:false,
                 account:{
                     id:'',
                 },
@@ -65,6 +77,7 @@
         },
         //计算
         computed: {
+            ...mapGetters(['coinList']),
             isEmpty(){
                 return Object.keys(this.balance)==0;
             }
@@ -83,6 +96,9 @@
 			close() {
 				ipcRenderer.send('hide-window');
             },
+            selectCoins(coins){
+                console.log(coins);
+            }
 
         },
         //生命周期函数
@@ -113,6 +129,8 @@
 </script>
 
 <style lang="less" scoped>
+    @import '../../less/modules/color.less';
+
     .header{
         display: flex;
         justify-content: space-between;
@@ -143,7 +161,7 @@
         background: #1B1E2E;
         -webkit-app-region:no-drag;
         >li{
-        border-bottom:1px solid #1F2943;
+            border-bottom:1px solid #1F2943;
         }
         span{
             display: inline-block;
@@ -156,6 +174,58 @@
     .balance-num{
         width: 188px;
     }
+
+    .left-menu{
+        -webkit-app-region: no-drag;
+        >li{
+            cursor: pointer;
+            display: inline-block;
+            margin: 0 5px;
+        }
+    }
+
+    .left-menu-item{
+        line-height: 20px;
+        -webkit-app-region:no-drag;
+        li{
+            padding: 0 0 0 10px;
+        }
+    }
+
+    .left-menu-1{
+        position: relative;
+        position: absolute;
+        top: 28px;
+        left: 0px;
+        z-index: 100;
+        padding: 0 5px;
+        width: 80px;
+        border: 1px solid @default;
+        background: #999;
+        border-radius: 5px;
+        >li{
+            &:hover .left-menu-2{
+                display: block;
+            }
+        }
+
+    }
+
+    .left-menu-2{
+        position: relative;
+        position: absolute;
+        top: 0;
+        left: 80px;
+        z-index: 100;
+        display: none;
+        padding: 0 5px;
+        width: 80px;
+        border: 1px solid @default;
+        background: #999;
+        border-radius: 5px;
+
+    }
+
     .toolbar {
         height: 30px;
 		-webkit-app-region: no-drag;
@@ -169,20 +239,5 @@
                 margin-right: 0px;
             }
 		}
-    }
-    .toolbar-set {
-        &:hover .set-list{
-            display: block;
-        }
-        -webkit-app-region:no-drag;
-    }
-    .set-list{
-        position: absolute;
-        top: 20px;
-        left: -2px;
-        display: none;
-        padding: 0 5px;
-        width: 60px;
-        background: #1B1E2E;
     }
 </style>
